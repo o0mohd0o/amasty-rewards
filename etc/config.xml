@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <amrewards>
+            <general>
+                <enabled>1</enabled>
+                <adminaction>Admin Point Change</adminaction>
+                <days>-1</days>
+            </general>
+            <points>
+                <rate>1</rate>
+                <round_rule>down</round_rule>
+                <disable_reward>0</disable_reward>
+                <expiration_behavior>0</expiration_behavior>
+                <read_only>0</read_only>
+                <limit_include_tax>0</limit_include_tax>
+            </points>
+            <spending_config>
+                <action>1</action>
+                <block_tooltip_text>If the system accepted less reward points than you initially applied, there are products in the cart that can’t be covered with them.</block_tooltip_text>
+            </spending_config>
+            <highlight>
+                <cart>0</cart>
+                <checkout>0</checkout>
+                <product>0</product>
+                <category>0</category>
+                <guest>0</guest>
+                <color>#000000</color>
+            </highlight>
+            <customer>
+                <description_enable>0</description_enable>
+                <show_balance>0</show_balance>
+                <balance_label>Reward Points</balance_label>
+            </customer>
+            <reward_program_restriction>
+                <message_enabled>1</message_enabled>
+                <message_text>
+<![CDATA[Your participation in the Reward Program has been limited by the store administrator.
+You can spend the reward points on purchasing products, however, you no longer can earn them.]]>
+                </message_text>
+            </reward_program_restriction>
+            <order>
+                <show_detailed>0</show_detailed>
+            </order>
+        </amrewards>
+    </default>
+</config>

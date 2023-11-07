@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="amasty_rewards_history" resource="default" engine="innodb" comment="amasty_rewards_history">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Customer_id"/>
+        <column xsi:type="timestamp" name="date" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                onCreate="migrateDataFrom(date)"/>
+        <column xsi:type="int" name="action_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Action_id"/>
+        <column xsi:type="text" name="params" nullable="true" comment="Additional params for applied rule"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index referenceId="ID" indexType="btree">
+            <column name="id"/>
+        </index>
+    </table>
+    <table name="amasty_rewards_customer_balance" resource="default" engine="innodb" comment="Customer Balance">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="false" identity="false"/>
+        <column xsi:type="float" name="balance" unsigned="true" nullable="false" scale="2" precision="10" comment="Balance"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AMASTY_REWARDS_CSTR_BALANCE_CSTR_ID_CSTR_ENTT_ENTT_ID"
+                    table="amasty_rewards_customer_balance" column="customer_id" referenceTable="customer_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="AMASTY_REWARDS_CUSTOMER_BALANCE_CUSTOMER_ID" indexType="btree">
+            <column name="customer_id"/>
+        </index>
+        <index referenceId="AMASTY_REWARDS_CUSTOMER_BALANCE_BALANCE" indexType="btree">
+            <column name="balance"/>
+        </index>
+    </table>
+    <table name="amasty_rewards_rewards" resource="default" engine="innodb" comment="amasty_rewards_rewards">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="timestamp" name="action_date" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Action_date"/>
+        <column xsi:type="decimal" name="amount" unsigned="false" nullable="false" default="0"
+                onCreate="migrateDataFrom(amount)" scale="2" precision="12"/>
+        <column xsi:type="text" name="comment" nullable="false" comment="Comment"/>
+        <column xsi:type="text" name="action" nullable="false" comment="Action"/>
+        <column xsi:type="decimal" name="points_left" unsigned="false" nullable="false" default="0"
+                onCreate="migrateDataFrom(points_left)" scale="2" precision="12"/>
+        <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Customer_id"/>
+        <column xsi:type="boolean" name="visible_for_customer" nullable="true" default="true"
+                comment="Visible Comment For Customer Flag"/>
+        <column xsi:type="text" name="admin_name" nullable="true" comment="Admin Name"/>
+        <column xsi:type="date" name="expiration_date" nullable="true" comment="Expiration Date"/>
+        <column xsi:type="decimal" name="expiring_amount" scale="2" precision="12" unsigned="false" nullable="false"
+                comment="Expiring Amount"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AMASTY_REWARDS_REWARDS_CSTR_ID_CSTR_ENTT_ENTT_ID"
+                    table="amasty_rewards_rewards" column="customer_id" referenceTable="customer_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="ID" indexType="btree">
+            <column name="id"/>
+        </index>
+        <index referenceId="AMASTY_REWARDS_REWARDS_CUSTOMER_ID" indexType="btree">
+            <column name="customer_id"/>
+        </index>
+    </table>
+    <table name="amasty_rewards_rule" resource="default" engine="innodb" comment="amasty_rewards_rule">
+        <column xsi:type="int" name="rule_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Rule_id"/>
+        <column xsi:type="boolean" name="is_active" nullable="false" comment="Is_active"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Name"/>
+        <column xsi:type="text" name="conditions_serialized" nullable="true" comment="Conditions_serialized"/>
+        <column xsi:type="varchar" name="action" nullable="true" length="255" comment="Action"/>
+        <column xsi:type="decimal" name="amount" unsigned="false" nullable="false" default="0"
+                onCreate="migrateDataFrom(amount)" scale="2" precision="12"/>
+        <column xsi:type="decimal" name="spent_amount" unsigned="false" nullable="false" default="0"
+                onCreate="migrateDataFrom(spent_amount)" scale="2" precision="12"/>
+        <column xsi:type="int" name="inactive_days" padding="11" unsigned="false" nullable="true" identity="false"
+                comment="Number of Days Inactive"/>
+        <column xsi:type="smallint" name="recurring" padding="6" unsigned="false" nullable="false" identity="false"
+                default="0" comment="Recurring"/>
+        <column xsi:type="smallint" name="expiration_behavior" padding="6" unsigned="false" nullable="false"
+                identity="false" default="0" comment="Expiration Behavior"/>
+        <column xsi:type="int" name="expiration_period" padding="11" unsigned="false" nullable="true" identity="false"
+                comment="Expiration Period"/>
+        <column xsi:type="boolean" name="skip_discounted_products" nullable="true" comment="Skip discounted products"/>
+        <column xsi:type="boolean" name="grant_points_for_specific_products" nullable="true"
+                comment="Grant points for specific products"/>
+        <column xsi:type="smallint" name="action_for_earning" padding="6" unsigned="false" nullable="true"
+                identity="false" default="1" comment="Action for earning"/>
+        <column xsi:type="text" name="products_sku" nullable="true" comment="Products SKU"/>
+        <column xsi:type="text" name="categories" nullable="true" comment="Categories ids"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="rule_id"/>
+        </constraint>
+    </table>
+    <table name="amasty_rewards_rule_label" resource="default" engine="innodb" comment="Amasty Rewards Rule Label">
+        <column xsi:type="int" name="label_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Label Id"/>
+        <column xsi:type="int" name="rule_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Rule Id"/>
+        <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" identity="false"
+                comment="Store Id"/>
+        <column xsi:type="varchar" name="label" nullable="true" length="255" comment="Label"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="label_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AMASTY_REWARDS_RULE_LBL_RULE_ID_AMASTY_REWARDS_RULE_RULE_ID"
+                    table="amasty_rewards_rule_label" column="rule_id" referenceTable="amasty_rewards_rule"
+                    referenceColumn="rule_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="AMASTY_REWARDS_RULE_LABEL_STORE_ID_STORE_STORE_ID"
+                    table="amasty_rewards_rule_label" column="store_id" referenceTable="store"
+                    referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="AMASTY_REWARDS_RULE_LABEL_RULE_ID_STORE_ID">
+            <column name="rule_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="AMASTY_REWARDS_RULE_LABEL_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="amasty_rewards_rule_website" resource="default" engine="innodb"
+           comment="Amasty Rewards Rules To Websites Relations">
+        <column xsi:type="int" name="rule_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Rule Id"/>
+        <column xsi:type="smallint" name="website_id" padding="5" unsigned="true" nullable="false" identity="false"
+                comment="Website Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="rule_id"/>
+            <column name="website_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AMASTY_REWARDS_RULE_WS_RULE_ID_AMASTY_REWARDS_RULE_RULE_ID"
+                    table="amasty_rewards_rule_website" column="rule_id" referenceTable="amasty_rewards_rule"
+                    referenceColumn="rule_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="AMASTY_REWARDS_RULE_WS_WS_ID_STORE_WS_WS_ID"
+                    table="amasty_rewards_rule_website" column="website_id" referenceTable="store_website"
+                    referenceColumn="website_id" onDelete="CASCADE"/>
+        <index referenceId="AMASTY_REWARDS_RULE_WEBSITE_WEBSITE_ID" indexType="btree">
+            <column name="website_id"/>
+        </index>
+    </table>
+    <table name="amasty_rewards_rule_customer_group" resource="default" engine="innodb"
+           comment="Amasty Rewards Rules To Customer Groups Relations">
+        <column xsi:type="int" name="rule_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Rule Id"/>
+        <column xsi:type="int" name="customer_group_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Customer Group Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="rule_id"/>
+            <column name="customer_group_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="CUSTOMER_GROUP_RULE_ID_AMASTY_REWARDS_RULE_RULE_ID"
+                    table="amasty_rewards_rule_customer_group" column="rule_id" referenceTable="amasty_rewards_rule"
+                    referenceColumn="rule_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="FK_7150AC5A60C8BC81BC8D64E8F2F1B77D"
+                    table="amasty_rewards_rule_customer_group" column="customer_group_id"
+                    referenceTable="customer_group" referenceColumn="customer_group_id" onDelete="CASCADE"/>
+        <index referenceId="AMASTY_REWARDS_RULE_CUSTOMER_GROUP_CUSTOMER_GROUP_ID" indexType="btree">
+            <column name="customer_group_id"/>
+        </index>
+    </table>
+    <table name="amasty_rewards_status_history" resource="default" engine="innodb"
+           comment="Earning Amasty Rewards Status History Table">
+        <column xsi:type="int" name="status_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Status Id"/>
+        <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Customer Id"/>
+        <column xsi:type="timestamp" name="date" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Entity Date"/>
+        <column xsi:type="int" name="action" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Action"/>
+        <column xsi:type="text" name="admin_name" nullable="false" comment="Admin Name"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="status_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AMASTY_REWARDS_STS_HISTORY_CSTR_ID_CSTR_ENTT_ENTT_ID"
+                    table="amasty_rewards_status_history" column="customer_id" referenceTable="customer_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="ID" indexType="btree">
+            <column name="status_id"/>
+        </index>
+    </table>
+    <table name="sales_order_grid" resource="default">
+        <column xsi:type="decimal" name="am_earn_reward_points" scale="4" precision="12" unsigned="false"
+                nullable="true" comment="Amasty Points Earn"/>
+        <column xsi:type="decimal" name="am_refund_reward_points" scale="4" precision="12" unsigned="false"
+                nullable="true" comment="Amasty Points Refunded"/>
+        <column xsi:type="decimal" name="am_deduct_reward_points" scale="4" precision="12" unsigned="false"
+                nullable="true" comment="Amasty Points Deducted"/>
+    </table>
+</schema>

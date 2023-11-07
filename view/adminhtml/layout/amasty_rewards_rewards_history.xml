@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <update handle="amasty_rewards_rewards_ajaxgrid" />
+    <container name="root">
+        <block class="Magento\Backend\Block\Template" name="rewards-history" template="Amasty_Rewards::tab/view/history_title.phtml"/>
+    </container>
+</layout>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" layout="2columns-left">
+	<update handle="customer_account"/>
+	<body>
+		<referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="customer.account.amrewards.restriction-message"
+                   template="Amasty_Rewards::restriction-message.phtml">
+                <arguments>
+                    <argument name="view_model"
+                              xsi:type="object">Amasty\Rewards\ViewModel\RestrictionMessage</argument>
+                </arguments>
+            </block>
+
+            <block cacheable="false" name="customer.account.amrewards.index" class="Amasty\Rewards\Block\Frontend\Index" template="index.phtml"/>
+            <block cacheable="false" class="Amasty\Rewards\Block\Frontend\Customer\SubscriptionSettings" name="customer.account.amrewards.settings" template="customer/subscription_settings.phtml"/>
+		</referenceContainer>
+	</body>
+</page>

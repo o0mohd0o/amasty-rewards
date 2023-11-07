@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="paypal.cart.coupon" remove="true"/>
+        <block class="Amasty\Rewards\Block\Frontend\Cart\Rewards" ifconfig="amrewards/general/enabled"
+               name="paypal.cart.amreward" as="amreward" template="cart/rewards.phtml"/>
+        <move element="paypal.cart.amreward" destination="paypal.additional.actions"/>
+    </body>
+</page>

@@ -1,0 +1,26 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+/* @var $block \Amasty\Rewards\Block\Adminhtml\Edit\Tab\View\SubscriptionSettings */
+?>
+<?php echo $block->getFormHtml();?>
+
+<script>
+    require([
+        'jquery',
+        'uiRegistry',
+    ], function ($, registry) {
+        'use strict';
+
+        $('#amrewards_earning_notification').on('click', function () {
+            registry.get('customer_form.customer_form_data_source').set('data.customer.amrewards_earning_notification', $(this).is(':checked') ? 1 : 0)
+        });
+
+        $('#amrewards_expire_notification').on('click', function () {
+            registry.get('customer_form.customer_form_data_source').set('data.customer.amrewards_expire_notification', $(this).is(':checked') ? 1 : 0)
+        })
+    });
+</script>

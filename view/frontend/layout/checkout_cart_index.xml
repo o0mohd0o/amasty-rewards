@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Amasty_Rewards::vendor/tooltipster/css/tooltipster.min.css"/>
+    </head>
+    <body>
+        <referenceContainer name="cart.summary">
+            <block class="Amasty\Rewards\Block\Frontend\Cart\Highlight" ifconfig="amrewards/general/enabled" name="amasty.reward.highlight" after="checkout.cart.summary.title" template="Amasty_Rewards::cart/highlight.phtml">
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="amasty-rewards-highlight-cart" xsi:type="array">
+                                <item name="component" xsi:type="string">Amasty_Rewards/js/model/totals/highlight</item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="checkout.cart.items">
+            <block class="Amasty\Rewards\Block\Frontend\Cart\Rewards" ifconfig="amrewards/general/enabled" name="checkout.cart.amreward" as="amreward" template="cart/rewards.phtml"/>
+        </referenceContainer>
+        <move element="checkout.cart.amreward" destination="cart.discount" after="checkout.cart.coupon"/>
+    </body>
+</page>

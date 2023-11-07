@@ -1,0 +1,391 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="amrewards" translate="label" type="text" sortOrder="180516" showInDefault="1" showInWebsite="1" showInStore="1">
+            <resource>Amasty_Rewards::config</resource>
+            <class>separator-top</class>
+            <label>Rewards Points</label>
+            <tab>amasty</tab>
+            <group id="amasty_information" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Information</label>
+                <frontend_model>Amasty\Rewards\Block\Adminhtml\System\Config\Information</frontend_model>
+            </group>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable 'Rewards Points'</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="points" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Points Earning and Spending Calculation</label>
+                <field id="rate" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Points Spending Rate</label>
+                    <validate>validate-number validate-greater-than-zero validate-length-of-numbers-after-comma</validate>
+                    <backend_model>Amasty\Rewards\Model\Config\Backend\Round</backend_model>
+                </field>
+                <field id="round_rule" translate="label comment options" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Points Rounding Rule</label>
+                    <comment>Rounding will apply when point value exceeds cart subtotal</comment>
+                    <options>
+                        <option label="No rounding (1.0001 to 1.0001)">no</option>
+                        <option label="Round down > Round down (1.0001 to 1)">down</option>
+                        <option label="Round up > Round up (1.0001 to 2)">up</option>
+                    </options>
+                </field>
+                <field id="days" translate="label comment tooltip" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Birthday Offset</label>
+                    <config_path>amrewards/general/days</config_path>
+                    <comment>Set the number of days when a Birthday bonus is available.</comment>
+                    <tooltip><![CDATA[<ul style="margin-left: 5px;"><li><b>a negative number</b> - the bonus will be available before the Birthday. For example, if the birthday is on May 5, and you set -3, a customer will get a bonus on May 2.</li><li><b>0</b> - you will give the bonus right on the birthday.</li><li><b>a positive number</b> - bonus will be available after the Birthday has passed. For example, if the birthday is on May 5, and you set 3, a customer will get a bonus on May 8.</li></ul>]]></tooltip>
+                </field>
+                <field id="before_after_tax" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <tooltip><![CDATA[<b>Before Tax</b>: Points = (Subtotal - Discount) * Earn Rates<br><br>
+<b>After Tax</b>: Points = (Subtotal + Tax - Discount) * Earn Rates]]></tooltip>
+                    <label>Points Earning Calculation</label>
+                    <comment>It Works Only for "Every $X Spent" Action.</comment>
+                    <config_path>amrewards/calculation/before_after_tax</config_path>
+                    <source_model>Amasty\Rewards\Model\Config\Source\Calculation\Mode</source_model>
+                </field>
+                <group id="limitations" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Limitations</label>
+                    <field id="minimum_reward" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Minimum Points Requirement</label>
+                        <comment>Set the points threshold that a customer must have to start spending Reward Points</comment>
+                        <config_path>amrewards/points/minimum_reward</config_path>
+                        <validate>validate-number validate-zero-or-greater</validate>
+                    </field>
+                    <field id="disable_reward" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Disable Reward Points for Orders That Were Paid with Reward Points</label>
+                        <config_path>amrewards/points/disable_reward</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="enable_limit" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Apply Redemption Limit</label>
+                        <config_path>amrewards/points/enable_limit</config_path>
+                        <source_model>Amasty\Rewards\Model\Config\Source\RedemptionLimitTypes</source_model>
+                    </field>
+                    <field id="limit_amount_reward" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Redemption Limit per Order</label>
+                        <comment>Only positive floating point numbers allowed</comment>
+                        <config_path>amrewards/points/limit_amount_reward</config_path>
+                        <validate>validate-no-empty validate-number validate-greater-than-zero validate-length-of-numbers-after-comma</validate>
+                        <backend_model>Amasty\Rewards\Model\Config\Backend\Round</backend_model>
+                        <depends>
+                            <field id="enable_limit">1</field>
+                        </depends>
+                    </field>
+                    <field id="limit_percent_reward" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Redemption Limit per Order</label>
+                        <comment>Only positive integer numbers allowed.</comment>
+                        <config_path>amrewards/points/limit_percent_reward</config_path>
+                        <validate>validate-no-empty validate-digits validate-digits-range digits-range-1-100 validate-length-of-numbers-after-comma</validate>
+                        <backend_model>Amasty\Rewards\Model\Config\Backend\Round</backend_model>
+                        <depends>
+                            <field id="enable_limit">2</field>
+                        </depends>
+                    </field>
+                    <field id="limit_include_tax" translate="label" type="select" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Include Tax in Redemption Limit Based On Subtotal</label>
+                        <config_path>amrewards/points/limit_include_tax</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <depends>
+                            <field id="enable_limit">2</field>
+                        </depends>
+                    </field>
+                </group>
+                <group id="expiration" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Expiration Settings</label>
+                    <field id="expiration_behavior" translate="label options" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Points Expiration Behavior</label>
+                        <config_path>amrewards/points/expiration_behavior</config_path>
+                        <options>
+                            <option label="Never expire">0</option>
+                            <option label="Expire">1</option>
+                        </options>
+                    </field>
+                    <field id="expiration_period" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Points Expiration Period, Days</label>
+                        <comment>Could be overridden on the individual rule level. If 0 is set, points will expire same day at midnight (12:00 am) your server time.</comment>
+                        <config_path>amrewards/points/expiration_period</config_path>
+                        <validate>required-number validate-digits</validate>
+                        <depends>
+                            <field id="expiration_behavior">1</field>
+                        </depends>
+                    </field>
+                </group>
+                <group id="other" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Other Settings</label>
+                    <field id="read_only" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Read-only Fields</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>amrewards/points/read_only</config_path>
+                        <comment>Select 'Yes' to make 'Refund to Reward Points' and 'Deduct Reward Points from Customer' fields non-editable during Credit Memo.</comment>
+                    </field>
+                    <field id="adminaction" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Admin Action Text</label>
+                        <config_path>amrewards/general/adminaction</config_path>
+                        <comment>Specify a comment which will be displayed when an admin user adds or deducts points manually.</comment>
+                    </field>
+                </group>
+                <group id="spending_config" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Spending Configuration</label>
+                    <field id="specific_products_enabled" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Spend Points on Specific Products</label>
+                        <config_path>amrewards/spending_config/specific_products_enabled</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Enable this setting if you’d like to restrict spending points on specific products.</comment>
+                    </field>
+                    <field id="action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Action</label>
+                        <config_path>amrewards/spending_config/action</config_path>
+                        <source_model>Amasty\Rewards\Model\Config\Source\IncludeExclude</source_model>
+                        <depends>
+                            <field id="specific_products_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="sku" translate="label tooltip" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>SKU</label>
+                        <config_path>amrewards/spending_config/sku</config_path>
+                        <backend_model>Amasty\Rewards\Model\Config\Backend\Restrict\Skus</backend_model>
+                        <tooltip>Enter the details in either SKU or Category ID field below to make this feature work.
+                            Otherwise, it’ll be ignored and reward points will be applied to all products.</tooltip>
+                        <depends>
+                            <field id="specific_products_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="category" translate="label tooltip" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Category ID</label>
+                        <config_path>amrewards/spending_config/category</config_path>
+                        <tooltip>Enter the details in either SKU or Category ID field below to make this feature work.
+                            Otherwise, it’ll be ignored and reward points will be applied to all products.</tooltip>
+                        <backend_model>Amasty\Rewards\Model\Config\Backend\Restrict\Categories</backend_model>
+                        <depends>
+                            <field id="specific_products_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="block_tooltip_enabled" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Add Tooltip in Reward Point Block</label>
+                        <config_path>amrewards/spending_config/block_tooltip_enabled</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Add a tooltip in the Reward Point block that will notify customers about details of your spending configuration.</comment>
+                        <depends>
+                            <field id="specific_products_enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="block_tooltip_text" translate="label comment" type="textarea" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Tooltip Text</label>
+                        <config_path>amrewards/spending_config/block_tooltip_text</config_path>
+                        <comment>Specify the message of the tooltip in this block. Limited to 500 symbols.</comment>
+                        <depends>
+                            <field id="specific_products_enabled">1</field>
+                            <field id="block_tooltip_enabled">1</field>
+                        </depends>
+                        <validate>required-entry validate-length maximum-length-500</validate>
+                    </field>
+                </group>
+            </group>
+            <group id="display_options" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Display Options</label>
+                <group id="highlight" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Highlight Point on Storefront</label>
+                    <field id="cart" translate="label tooltip" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Show in Cart</label>
+                        <config_path>amrewards/highlight/cart</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <tooltip><![CDATA[Reward Points will be promoted in the cart only if at least one reward rule of the type "For every $X spent" or "Order Completed" is active and properly configured.]]></tooltip>
+                    </field>
+                    <field id="checkout" translate="label tooltip" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Show on Checkout Page</label>
+                        <config_path>amrewards/highlight/checkout</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <tooltip><![CDATA[Reward Points will be promoted on the checkout page only if at least one reward rule of the type "For every $X spent" or "Order Completed" is active and properly configured.]]></tooltip>
+                    </field>
+                    <field id="product" translate="label tooltip" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Show on Product Pages</label>
+                        <config_path>amrewards/highlight/product</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <tooltip><![CDATA[Reward Points will be promoted on product pages only if at least one reward rule of the type "for every $X spent" is active and properly configured.]]></tooltip>
+                    </field>
+                    <field id="category" translate="label tooltip" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Show on Categories Pages</label>
+                        <config_path>amrewards/highlight/category</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <tooltip><![CDATA[Reward Points will be promoted on categories pages only if at least one reward rule of the type "for every $X spent" is active and properly configured.]]></tooltip>
+                    </field>
+                    <field id="guest" translate="label tooltip" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Show Highlight for Guests</label>
+                        <config_path>amrewards/highlight/guest</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <tooltip><![CDATA[Highlights will be displayed on the Checkout, Cart and Product pages for 'Get X Points for Registration',
+                        'Get X Points for Completing Order' & 'Get X Points for Each $Y Spent' rules if they are configured and active.]]></tooltip>
+                    </field>
+                    <field id="registration_link" translate="label tooltip" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Show Link for Registration</label>
+                        <config_path>amrewards/highlight/registration_link</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <tooltip><![CDATA[Link to registration page will shows in Checkout, Cart and Product page.]]></tooltip>
+                        <depends>
+                            <field id="guest">1</field>
+                        </depends>
+                    </field>
+                    <field id="color" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Text Color</label>
+                        <config_path>amrewards/highlight/color</config_path>
+                        <frontend_model>Amasty\Rewards\Block\Adminhtml\System\Config\Field\Color</frontend_model>
+                        <frontend_class>amasty-rewards-color-input</frontend_class>
+                        <validate>required-entry</validate>
+                    </field>
+                </group>
+                <group id="customer" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer Account</label>
+                    <field id="description_enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Show Reward Points Description In Customer Account</label>
+                        <config_path>amrewards/customer/description_enable</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <group id="desc" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Reward Points Description</label>
+                        <depends>
+                            <field id="description_enable">1</field>
+                        </depends>
+                        <field id="description_message" translate="label" type="editor" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" >
+                            <label>Reward Points Description</label>
+                            <config_path>amrewards/customer/description_message</config_path>
+                            <frontend_model>Amasty\Rewards\Block\Adminhtml\System\Config\Field\Editor</frontend_model>
+                        </field>
+                    </group>
+                    <field id="show_balance" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Show Actual Reward Points Balance on Storefront</label>
+                        <comment>Actual balance will display in the top menu after customer account.</comment>
+                        <config_path>amrewards/customer/show_balance</config_path>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="balance_label" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Customer Account Balance Label</label>
+                        <config_path>amrewards/customer/balance_label</config_path>
+                        <validate>required</validate>
+                    </field>
+
+                    <group id="reward_program_restriction"
+                           translate="label"
+                           sortOrder="50"
+                           showInDefault="1"
+                           showInWebsite="1"
+                           showInStore="0">
+                        <label>Reward Program Restriction</label>
+
+                        <field id="message_enabled"
+                               translate="label comment"
+                               type="select"
+                               sortOrder="0"
+                               showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Enable Restriction Message</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>amrewards/reward_program_restriction/message_enabled</config_path>
+                            <comment>Disable this setting if you don’t want to show the note to the customers explaining that they have been excluded from the Reward Program.</comment>
+                        </field>
+
+                        <field id="message_text"
+                               translate="label"
+                               type="textarea"
+                               sortOrder="10"
+                               showInDefault="1"
+                               showInWebsite="1"
+                               showInStore="0">
+                            <label>Restriction Message Text</label>
+                            <frontend_model>Amasty\Rewards\Block\Adminhtml\System\Config\Field\RestrictionMessageText</frontend_model>
+                            <config_path>amrewards/reward_program_restriction/message_text</config_path>
+                            <validate>required-entry</validate>
+                            <depends>
+                                <field id="message_enabled">1</field>
+                            </depends>
+                        </field>
+                    </group>
+                </group>
+                <group id="order" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order</label>
+                    <field id="show_detailed" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Show Detailed Info</label>
+                        <config_path>amrewards/order/show_detailed</config_path>
+                        <comment>Enable this setting to show details about earned, refunded, and subtracted points in the Order Information.</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
+            </group>
+            <group id="notification" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Email Notification</label>
+                <field id="email_sender" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="send_earn_notification" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Send Email When Customer Earns Reward Points</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="balance_earn_template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Reward Points Earned Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="send_earn_notification">1</field>
+                    </depends>
+                </field>
+                <field id="subscribe_by_default_to_earn_notifications"
+                       translate="label comment"
+                       type="select"
+                       sortOrder="40"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+                    <label>Subscribe Customers by Default</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set to 'Yes', make sure you notified customers about subscription in the Privacy Policy or GDPR.</comment>
+                    <depends>
+                        <field id="send_earn_notification">1</field>
+                    </depends>
+                </field>
+                <field id="send_expire_notification" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Send Email When Customer's Reward Points Are About to Expire</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="points_expiring_template" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Reward Points Expiring Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="send_expire_notification">1</field>
+                    </depends>
+                </field>
+                <field id="expiry_day_send" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Email Will Be Sent When Reward Points Expire In, Number of Days</label>
+                    <comment><![CDATA[Specify the number of N days before point expiration the notifying email will be sent to customers. Enter up to ten N days with a comma if you’d like to send more than one email. For example: 10, 5, 3]]></comment>
+                    <validate>required-entry validate-notification-days</validate>
+                    <depends>
+                        <field id="send_expire_notification">1</field>
+                    </depends>
+                </field>
+                <field id="subscribe_by_default_to_expire_notifications"
+                       translate="label comment"
+                       type="select"
+                       sortOrder="80"
+                       showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0">
+                    <label>Subscribe Customers by Default</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set to 'Yes', make sure you notified customers about subscription in the Privacy Policy or GDPR.</comment>
+                    <depends>
+                        <field id="send_expire_notification">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

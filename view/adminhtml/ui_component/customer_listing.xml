@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="customer_columns" class="Amasty\Rewards\Ui\Component\Listing\Column\PointsColumn">
+        <column name="amount">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Reward Points</label>
+                <sortable>true</sortable>
+                <sorting>asc</sorting>
+                <dataType>select</dataType>
+            </settings>
+        </column>
+    </columns>
+</listing>

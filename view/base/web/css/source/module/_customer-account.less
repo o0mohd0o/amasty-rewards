@@ -1,0 +1,125 @@
+//
+//  Reward Points Customer Account
+//  ____________________________________________
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amrewards-expiration {
+        & {
+            display: inline-block;
+            padding: 3px 15px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        &.-warning {
+            background: #ffa63d;
+            color: #fff;
+        }
+
+        &.-critical {
+            background: #eb5757;
+            color: #fff;
+        }
+
+        &.-expired {
+            background: #ececec;
+            color: #838383;
+        }
+    }
+
+    .amrewards-info-table {
+        & {
+            border-top: 1px solid #ccc;
+            color: #000;
+        }
+
+        .amrewards-table-header .col {
+            color: #888;
+            text-transform: uppercase;
+            white-space: nowrap;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .col.status {
+            white-space: nowrap;
+        }
+    }
+
+    .amrewards-current-balance {
+        .amrewards-balance {
+            font-weight: 700;
+            font-size: 36px;
+        }
+
+        .amrewards-label {
+            font-size: 18px;
+        }
+    }
+
+    .amrewards-total-info {
+        margin-bottom: 5px;
+    }
+
+    .amrewards-expiring-wrapper {
+        &.table-wrapper {
+            border-top: none;
+            border-bottom: none;
+        }
+
+        .amrewards-title {
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .amrewards-info-table {
+            margin-top: 15px;
+            max-width: 460px;
+        }
+    }
+
+    .customer-information {
+        margin-bottom: 35px;
+    }
+
+    .amrewards-qty-info {
+        .amrewards-general {
+            margin-bottom: 20px;
+            padding-right: 10px;
+            min-width: 200px;
+        }
+
+        .amrewards-description {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+//
+//  Tablet
+//  ----------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .amrewards-pointsleft,
+    .amrewards-info-table .amrewards-table-header .col.left {
+        text-align: right;
+    }
+
+    .amrewards-qty-info {
+        display: inline-flex;
+    }
+
+    .amrewards-general,
+    .amrewards-description {
+        margin-bottom: 0;
+    }
+
+    .amrewards-qty-info .amrewards-general {
+        padding-bottom: 15px;
+        min-width: 460px;
+    }
+}

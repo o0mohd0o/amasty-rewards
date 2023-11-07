@@ -1,0 +1,160 @@
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+<!--Frontend-->
+    <!--Checkout Rewards Management Start-->
+    <route url="/V1/carts/mine/points/:points" method="PUT">
+        <service class="Amasty\Rewards\Api\CheckoutRewardsManagementInterface" method="set"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/carts/mine/points/delete" method="DELETE">
+        <service class="Amasty\Rewards\Api\CheckoutRewardsManagementInterface" method="remove"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+    <!--/Checkout Rewards Management-->
+    <!--Guest Highlight Management-->
+    <route url="/V1/rewards/mine/highlight/product" method="POST">
+        <service class="\Amasty\Rewards\Api\GuestHighlightManagementInterface" method="getHighlight"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/rewards/mine/guest-highlight/product" method="POST">
+        <service class="Amasty\Rewards\Api\GuestHighlightManagementInterface" method="getHighlight"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <!--/Guest Highlight Management-->
+    <!--Catalog Highlight Management-->
+    <route url="/V1/rewards/mine/highlight/product" method="POST">
+        <service class="Amasty\Rewards\Api\CatalogHighlightManagementInterface" method="getHighlightForProduct"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/rewards/mine/highlight/category" method="POST">
+        <service class="Amasty\Rewards\Api\CatalogHighlightManagementInterface" method="getHighlightForCategory"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <!--/Catalog Highlight Management-->
+    <!--Checkout Highlight Management-->
+    <route url="/V1/rewards/mine/highlight/checkout" method="GET">
+        <service class="Amasty\Rewards\Api\CheckoutHighlightManagementInterface" method="getHighlightByCustomerId"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <!--/Checkout Highlight Management-->
+    <!--Customer rewards balance-->
+    <route url="/V1/rewards/mine/balance" method="GET">
+        <service class="Amasty\Rewards\Api\CustomerBalanceRepositoryInterface" method="getBalanceByCustomerId"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <!--/Customer rewards balance-->
+    <!--Customer rewards history-->
+    <route url="/V1/rewards/mine/history" method="GET">
+        <service class="Amasty\Rewards\Api\RewardsRepositoryInterface" method="getByCustomerId"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <!--/Customer rewards history-->
+<!--/Frontend-->
+<!--Adminhtml-->
+    <!--Rewards History Repository Management-->
+    <route url="/V1/rewards/management/history" method="POST">
+        <service class="Amasty\Rewards\Api\RewardsRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="Amasty_Rewards::customer" />
+        </resources>
+    </route>
+    <route url="/V1/rewards/management/history/:customerId" method="POST">
+        <service class="Amasty\Rewards\Api\RewardsRepositoryInterface" method="getByCustomerId"/>
+        <resources>
+            <resource ref="Amasty_Rewards::customer" />
+        </resources>
+    </route>
+    <!--/Rewards Repository Management-->
+    <!--Rewards Points Management-->
+    <route url="/V1/rewards/management/points/rule" method="POST">
+        <service class="Amasty\Rewards\Api\RewardsProviderInterface" method="addPointsByRule"/>
+        <resources>
+            <resource ref="Amasty_Rewards::customer" />
+        </resources>
+    </route>
+
+    <route url="/V1/rewards/management/points/add-reward-points" method="POST">
+        <service class="Amasty\Rewards\Api\RewardsProviderInterface" method="addRewardPoints"/>
+        <resources>
+            <resource ref="Amasty_Rewards::customer" />
+        </resources>
+    </route>
+    <route url="/V1/rewards/management/points/deduct-reward-points" method="POST">
+        <service class="Amasty\Rewards\Api\RewardsProviderInterface" method="deductRewardPoints"/>
+        <resources>
+            <resource ref="Amasty_Rewards::customer" />
+        </resources>
+    </route>
+    <!--/Rewards Points Management-->
+    <!--Rewards Rules Management-->
+    <route url="/V1/rewards/management/rule" method="POST">
+        <service class="Amasty\Rewards\Api\RuleRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Amasty_Rewards::rule" />
+        </resources>
+    </route>
+    <route url="/V1/rewards/management/rule/:ruleId" method="PUT">
+        <service class="Amasty\Rewards\Api\RuleRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Amasty_Rewards::rule" />
+        </resources>
+    </route>
+    <route url="/V1/rewards/management/rule/:ruleId" method="DELETE">
+        <service class="Amasty\Rewards\Api\RuleRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Amasty_Rewards::rule" />
+        </resources>
+    </route>
+    <route url="/V1/rewards/management/rule" method="GET">
+        <service class="Amasty\Rewards\Api\RuleRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="Amasty_Rewards::rule" />
+        </resources>
+    </route>
+    <route url="/V1/rewards/management/rule/all" method="POST">
+        <service class="Amasty\Rewards\Api\RuleRepositoryInterface" method="getRulesByAction" />
+        <resources>
+            <resource ref="Amasty_Rewards::rule" />
+        </resources>
+    </route>
+    <!--/Rewards Rules Management-->
+<!--/Adminhtml-->
+</routes>

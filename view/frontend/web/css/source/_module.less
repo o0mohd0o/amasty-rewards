@@ -1,0 +1,175 @@
+//
+//  Reward Points
+//  ____________________________________________
+
+//
+//  Imports
+//  ----------------------------------------------
+
+@import 'module/_customer-account';
+
+//
+//  Variables
+//  ----------------------------------------------
+
+@amrewards__coin__icon: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iNyIgY3k9IjciIHI9IjYuNTYzIiBmaWxsPSIjRjJDOTRDIi8+PHBhdGggZD0iTTcgMTRjLTMuODYgMC03LTMuMTQtNy03czMuMTQtNyA3LTcgNyAzLjE0IDcgNy0zLjE0IDctNyA3ek03IC44NzVBNi4xMzIgNi4xMzIgMCAwIDAgLjg3NSA3IDYuMTMyIDYuMTMyIDAgMCAwIDcgMTMuMTI1IDYuMTMyIDYuMTMyIDAgMCAwIDEzLjEyNSA3IDYuMTMyIDYuMTMyIDAgMCAwIDcgLjg3NXoiIGZpbGw9IiM0RTM2NTUiLz48cGF0aCBkPSJNNyA3LjQzN2MtLjUzNyAwLTEuMDQ2LS4xNy0xLjQzMy0uNDgtLjQxNi0uMzMyLS42NDUtLjc4My0uNjQ1LTEuMjcgMC0uNDg1LjIyOS0uOTM3LjY0NC0xLjI3Ljc4Ny0uNjI4IDIuMTk3LS42MDQgMy4wMi4wNTRhLjQzNy40MzcgMCAxIDEtLjU0Ny42ODNjLS40OTMtLjM5NC0xLjQ2Ni0uNDIxLTEuOTI2LS4wNTMtLjIwNC4xNjMtLjMxNi4zNzItLjMxNi41ODYgMCAuMjE1LjExMi40MjQuMzE2LjU4Ny4yMzMuMTg2LjU0OC4yODguODg3LjI4OGEuNDM4LjQzOCAwIDAgMSAwIC44NzV6IiBmaWxsPSIjNEUzNjU1Ii8+PHBhdGggZD0iTTYuOTg3IDEwLjAzOGMtLjU3IDAtMS4xNS0uMTctMS41NzMtLjUwOWEuNDM4LjQzOCAwIDAgMSAuNTQ3LS42ODNjLjQ5My4zOTUgMS40NjUuNDIxIDEuOTI1LjA1My4yMDUtLjE2My4zMTctLjM3Mi4zMTctLjU4NiAwLS4yMTUtLjExMi0uNDI0LS4zMTctLjU4N0ExLjQxOCAxLjQxOCAwIDAgMCA3IDcuNDM4YS40MzguNDM4IDAgMCAxIDAtLjg3NWMuNTM3IDAgMS4wNDYuMTcgMS40MzMuNDguNDE2LjMzMi42NDUuNzgzLjY0NSAxLjI3IDAgLjQ4Ni0uMjI5LjkzNy0uNjQ1IDEuMjctLjM4MS4zMDQtLjkxLjQ1NS0xLjQ0Ni40NTV6TTcgNC44MTJhLjQzOC40MzggMCAwIDEtLjQzOC0uNDM3VjMuNDJhLjQzOC40MzggMCAwIDEgLjg3NSAwdi45NTVBLjQzOC40MzggMCAwIDEgNyA0LjgxMnoiIGZpbGw9IiM0RTM2NTUiLz48cGF0aCBkPSJNNyAxMS4wMTdhLjQzNy40MzcgMCAwIDEtLjQzOC0uNDM3di0uOTU1YS40MzcuNDM3IDAgMSAxIC44NzUgMHYuOTU1YS40MzguNDM4IDAgMCAxLS40MzcuNDM3eiIgZmlsbD0iIzRFMzY1NSIvPjwvc3ZnPg==);
+@amrewards__container__background: #a6a6a6;
+@amrewards__amount__background: #f2c94c;
+@amrewards__minipoints__note__color: #f00;
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amrewards-balance-container {
+        & {
+            border-color: @amrewards__container__background;
+            border-left-style: solid;
+            border-right-style: solid;
+            border-width: 1px;
+        }
+
+        .amrewards-label {
+            margin-right: 10px;
+        }
+
+        .amrewards-amount {
+            background: @amrewards__amount__background;
+            border-radius: 2px;
+            color: @color-black;
+            cursor: pointer;
+            display: inline;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: normal;
+            padding: 0 5px;
+            text-align: center;
+        }
+    }
+
+    /* phpcs:ignore Magento2.Less.AvoidId.IdSelectorUsage */
+    .amrewards-apply-container#block-reward { // override magento styles
+        & {
+            float: left;
+            width: 53%;
+        }
+
+        .content {
+            max-width: 90%;
+        }
+    }
+
+    .amrewards-minpoints-note {
+        color: @amrewards__minipoints__note__color;
+        display: none;
+        font-size: 13px;
+        margin-top: 3%;
+        width: 130%;
+    }
+
+    .amrewards-discount-form {
+        & {
+            max-width: 500px;
+        }
+
+        .amrewards-actions {
+            margin-top: 20px;
+        }
+    }
+
+    .amrewards-highlight-container {
+        & {
+            display: inline-flex;
+            padding: 0 0 5px;
+        }
+
+        > .caption strong {
+            font-size: 1.4rem;
+            font-weight: 500;
+            line-height: 1.1;
+        }
+    }
+
+    .checkout-cart-index .amrewards-highlight-container,
+    .checkout-index-index .amrewards-highlight-container,
+    .catalog-product-view .amrewards-highlight-container {
+        & {
+            padding: 2px 0 15px;
+        }
+
+        > .caption strong {
+            font-weight: 600;
+        }
+
+        &:before {
+            content: @amrewards__coin__icon;
+            margin: 2px 5px 0;
+        }
+    }
+
+    .amrewards-points-rate {
+        & {
+            display: inline-block;
+            margin-bottom: 5px;
+            padding-right: 30px;
+            position: relative;
+        }
+
+        .field-tooltip {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
+    .amrewards-info-message.message.info { // override magento styles
+        & {
+            color: @color-black;
+            padding-left: 20px;
+            word-break: break-word;
+            word-wrap: break-word;
+        }
+
+        > *:first-child:before {
+            display: none;
+        }
+    }
+}
+
+//
+//  Tablet
+//  ----------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .amrewards-balance-container {
+        & {
+            padding: 0 5px;
+        }
+
+        .amrewards-amount {
+            display: inherit;
+        }
+    }
+}
+
+//
+//  Mobile
+//  --------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    /* phpcs:ignore Magento2.Less.AvoidId.IdSelectorUsage */
+    .amrewards-apply-container#block-reward { // override magento styles
+        & {
+            float: initial;
+            width: 100%;
+        }
+
+        .content {
+            max-width: 100%;
+        }
+
+        .amrewards-discount-form {
+            max-width: 100%;
+        }
+    }
+}

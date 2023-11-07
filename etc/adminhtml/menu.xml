@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Amasty_Rewards::rule" title="Reward Points Earning Rules" module="Amasty_Rewards" sortOrder="110" parent="Magento_CatalogRule::promo" action="amasty_rewards/rule/" resource="Amasty_Rewards::rule"/>
+        <add id="Amasty_Rewards::reports" title="Reward Points Report" module="Amasty_Rewards" sortOrder="110" parent="Magento_Reports::report_marketing" action="amasty_rewards/reports/" resource="Amasty_Rewards::reports"/>
+    </menu>
+</config>

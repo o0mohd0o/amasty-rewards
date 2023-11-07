@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form_data_source</item>
+            <item name="deps" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Customer Group Catalog Rule</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">amasty_rewards_rule_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="array">
+                <item name="name" xsi:type="string">back</item>
+                <item name="label" xsi:type="string" translate="true">Back</item>
+                <item name="class" xsi:type="string">back</item>
+                <item name="url" xsi:type="string">*/*/</item>
+            </item>
+            <item name="save" xsi:type="string">Amasty\Rewards\Block\Adminhtml\Rule\Edit\SaveButton</item>
+            <item name="reset" xsi:type="string">Amasty\Rewards\Block\Adminhtml\Rule\Edit\ResetButton</item>
+            <item name="save_and_continue" xsi:type="string">Amasty\Rewards\Block\Adminhtml\Rule\Edit\SaveAndContinueButton</item>
+            <item name="delete" xsi:type="string">Amasty\Rewards\Block\Adminhtml\Rule\Edit\DeleteButton</item>
+        </item>
+    </argument>
+    <dataSource name="amasty_rewards_rule_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Amasty\Rewards\Model\Rule\DataProvider</argument>
+            <argument name="name" xsi:type="string">amasty_rewards_rule_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="amasty_rewards/rule/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="general">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">General</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">10</item>
+                <item name="opened" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <field name="rule_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">rule_id</item>
+                </item>
+            </argument>
+        </field>
+        <field name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Name</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">name</item>
+                    <item name="sortOrder" xsi:type="string">10</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="is_active">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Status</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">is_active</item>
+                    <item name="sortOrder" xsi:type="string">20</item>
+                </item>
+                <item name="options" xsi:type="array">
+                    <item name="0" xsi:type="array">
+                        <item name="value" xsi:type="number">1</item>
+                        <item name="label" xsi:type="string" translate="true">Active</item>
+                    </item>
+                    <item name="1" xsi:type="array">
+                        <item name="value" xsi:type="number">0</item>
+                        <item name="label" xsi:type="string" translate="true">Inactive</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="website_ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Websites</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="formElement" xsi:type="string">multiselect</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">website_ids</item>
+                    <item name="sortOrder" xsi:type="string">30</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="link" xsi:type="string">http://docs.magento.com/m2/ce/user_guide/configuration/scope.html</item>
+                        <item name="description" xsi:type="string">What is this?</item>
+                    </item>
+                </item>
+                <item name="options" xsi:type="object">Amasty\Rewards\Model\Rule\StoresOptionsProvider</item>
+            </argument>
+        </field>
+        <field name="customer_group_ids" formElement="multiselect" sortOrder="40">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">groupcat_rule</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Customer Groups</label>
+                <dataType>number</dataType>
+                <dataScope>customer_group_ids</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <tooltip>
+                    <description translate="true"><![CDATA[Please note that if you select the ‘NOT LOGGED IN’ option
+                    in several active rules "Get X Points for Registration" and "Get X Points for Completing Order",
+                    their Reward Points will be summed up for a customer on the front, however, after registration,
+                    the customer will receive the Reward Points according to the customer group assigned to him
+                    and rules configured for this customer group. You can find the usage example in the
+                    <a href="https://amasty.com/docs/doku.php?id=magento_2:reward_points#earning_configuration">User Guide</a>.]]></description>
+                </tooltip>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options class="Magento\CatalogRule\Model\Rule\CustomerGroupsOptionsProvider"/>
+                    </settings>
+                </multiselect>
+            </formElements>
+        </field>
+    </fieldset>
+    <fieldset name="actions">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Actions</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">20</item>
+                <item name="opened" xsi:type="boolean">false</item>
+            </item>
+        </argument>
+        <field name="action">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="dataScope" xsi:type="string">action</item>
+                    <item name="label" xsi:type="string" translate="true">Action</item>
+                    <item name="sortOrder" xsi:type="string">10</item>
+                    <item name="switcherConfig" xsi:type="array">
+                        <item name="enabled" xsi:type="boolean">true</item>
+                        <item name="rules" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="value" xsi:type="string">ordercompleted</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="1" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.recurring</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="3" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="4" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="5" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="6" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="7" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.general.customer_group_ids</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="8" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.name }</item>
+                                        <item name="callback" xsi:type="string">notice</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string" translate="true">Please note that reward points will be added after the order obtains status "Complete".</item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="value" xsi:type="string">subscription</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="1" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.recurring</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="3" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="4" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="5" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="6" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="7" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.general.customer_group_ids</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="8" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.name }</item>
+                                        <item name="callback" xsi:type="string">notice</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string"/>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                            <item name="2" xsi:type="array">
+                                <item name="value" xsi:type="string">birthday</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="1" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.recurring</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="3" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="4" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="5" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="6" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="7" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.general.customer_group_ids</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="8" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.name }</item>
+                                        <item name="callback" xsi:type="string">notice</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string"/>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                            <item name="3" xsi:type="array">
+                                <item name="value" xsi:type="string">moneyspent</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="1" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.recurring</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="3" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="4" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="5" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.general.customer_group_ids</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="6" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.name }</item>
+                                        <item name="callback" xsi:type="string">notice</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string" translate="true">Please note that reward points will be added after the order obtains status "Complete".</item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                            <item name="4" xsi:type="array">
+                                <item name="value" xsi:type="string">registration</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="1" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.recurring</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="3" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="4" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="5" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="6" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="7" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.general.customer_group_ids</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="8" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.name }</item>
+                                        <item name="callback" xsi:type="string">notice</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string"/>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                            <item name="5" xsi:type="array">
+                                <item name="value" xsi:type="string">review</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="1" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.recurring</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="3" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="4" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="5" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="6" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="7" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.general.customer_group_ids</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="8" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.name }</item>
+                                        <item name="callback" xsi:type="string">notice</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string"/>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                            <item name="6" xsi:type="array">
+                                <item name="value" xsi:type="string">visit</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                    <item name="1" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.inactive_days</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="2" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.recurring</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="3" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">required-entry</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="4" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.spent_amount</item>
+                                        <item name="callback" xsi:type="string">setValidation</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string">validate-greater-than-zero</item>
+                                            <item name="1" xsi:type="string">0</item>
+                                        </item>
+                                    </item>
+                                    <item name="5" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.general.customer_group_ids</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                    <item name="6" xsi:type="array">
+                                        <item name="target" xsi:type="string">${ $.name }</item>
+                                        <item name="callback" xsi:type="string">notice</item>
+                                        <item name="params" xsi:type="array">
+                                            <item name="0" xsi:type="string"/>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+                <item name="options" xsi:type="array">
+                    <item name="0" xsi:type="array">
+                        <item name="value" xsi:type="string">ordercompleted</item>
+                        <item name="label" xsi:type="string" translate="true">Get X Points for Completing Order</item>
+                    </item>
+                    <item name="1" xsi:type="array">
+                        <item name="value" xsi:type="string">subscription</item>
+                        <item name="label" xsi:type="string" translate="true">Get X Points for Newsletter Subscription</item>
+                    </item>
+                    <item name="2" xsi:type="array">
+                        <item name="value" xsi:type="string">birthday</item>
+                        <item name="label" xsi:type="string" translate="true">Get X Points as a Birthday Gift</item>
+                    </item>
+                    <item name="3" xsi:type="array">
+                        <item name="value" xsi:type="string">moneyspent</item>
+                        <item name="label" xsi:type="string" translate="true">Get X Points for Each $Y Spent</item>
+                    </item>
+                    <item name="4" xsi:type="array">
+                        <item name="value" xsi:type="string">registration</item>
+                        <item name="label" xsi:type="string" translate="true">Get X Points for Registration</item>
+                    </item>
+                    <item name="5" xsi:type="array">
+                        <item name="value" xsi:type="string">visit</item>
+                        <item name="label" xsi:type="string" translate="true">Get X Points after Y Days of Inactivity</item>
+                    </item>
+                    <item name="6" xsi:type="array">
+                        <item name="value" xsi:type="string">review</item>
+                        <item name="label" xsi:type="string" translate="true">Get X Points for Approved Product Review</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="amount">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Amount</item>
+                    <item name="notice" xsi:type="string" translate="true">Points Income (X)</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">amount</item>
+                    <item name="sortOrder" xsi:type="string">20</item>
+                    <item name="component" xsi:type="string">Amasty_Rewards/js/form/element/validation</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                        <item name="validate-length-of-numbers-after-comma" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="spent_amount">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Spent Amount</item>
+                    <item name="notice" xsi:type="string" translate="true">Amount to spend ($Y)</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">spent_amount</item>
+                    <item name="sortOrder" xsi:type="string">30</item>
+                    <item name="component" xsi:type="string">Amasty_Rewards/js/form/element/validation</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                        <item name="validate-length-of-numbers-after-comma" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="inactive_days">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Days Since Last Login (Y)</item>
+                    <item name="notice" xsi:type="string" translate="true">Will be credited automatically, login not required</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">inactive_days</item>
+                    <item name="sortOrder" xsi:type="string">50</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                        <item name="validate-digits" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="recurring">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Recurring</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">recurring</item>
+                    <item name="sortOrder" xsi:type="string">60</item>
+                </item>
+                <item name="options" xsi:type="array">
+                    <item name="0" xsi:type="array">
+                        <item name="value" xsi:type="string">0</item>
+                        <item name="label" xsi:type="string" translate="true">No</item>
+                    </item>
+                    <item name="1" xsi:type="array">
+                        <item name="value" xsi:type="string">1</item>
+                        <item name="label" xsi:type="string" translate="true">Yes</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="expiration_behavior">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Points expiration behavior</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">expiration_behavior</item>
+                    <item name="sortOrder" xsi:type="string">70</item>
+                    <item name="tooltip" xsi:type="array">
+                        <item name="description" xsi:type="string" translate="true">Select "Custom", if you want to override default Amasty Rewards configuration and explicitly set expiration period for this rule on individual basis.</item>
+                    </item>
+                    <item name="switcherConfig" xsi:type="array">
+                        <item name="enabled" xsi:type="boolean">true</item>
+                        <item name="rules" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="value" xsi:type="string">0</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.expiration_period</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                </item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="value" xsi:type="string">1</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.expiration_period</item>
+                                        <item name="callback" xsi:type="string">hide</item>
+                                    </item>
+                                </item>
+                            </item>
+                            <item name="2" xsi:type="array">
+                                <item name="value" xsi:type="string">2</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="target" xsi:type="string">amasty_rewards_rule_form.amasty_rewards_rule_form.actions.expiration_period</item>
+                                        <item name="callback" xsi:type="string">show</item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+                <item name="options" xsi:type="array">
+                    <item name="0" xsi:type="array">
+                        <item name="value" xsi:type="string">0</item>
+                        <item name="label" xsi:type="string" translate="true">Default</item>
+                    </item>
+                    <item name="1" xsi:type="array">
+                        <item name="value" xsi:type="string">1</item>
+                        <item name="label" xsi:type="string" translate="true">Never expire</item>
+                    </item>
+                    <item name="2" xsi:type="array">
+                        <item name="value" xsi:type="string">2</item>
+                        <item name="label" xsi:type="string" translate="true">Custom</item>
+                    </item>
+                </item>
+
+            </argument>
+        </field>
+        <field name="expiration_period">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Points expiration period, days</item>
+                    <item name="note" xsi:type="string" translate="true">If 0 is set, points will expire same day at midnight (12:00 am) your server time.</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">expiration_period</item>
+                    <item name="sortOrder" xsi:type="string">80</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-number" xsi:type="boolean">true</item>
+                        <item name="validate-digits" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="conditions">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Conditions</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">30</item>
+                <item name="component" xsi:type="string">Amasty_Rewards/js/form/conditions-fieldset</item>
+                <item name="conditionActions" xsi:type="array">
+                    <item name="0" xsi:type="string">ordercompleted</item>
+                    <item name="1" xsi:type="string">moneyspent</item>
+                </item>
+            </item>
+        </argument>
+        <container name="conditions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+            <htmlContent name="html_content_conditions">
+                <argument name="block" xsi:type="object">Amasty\Rewards\Block\Adminhtml\Rule\Edit\Tab\Conditions</argument>
+            </htmlContent>
+        </container>
+    </fieldset>
+    <fieldset name="earning_config">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Earning Configuration</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">40</item>
+                <item name="component" xsi:type="string">Amasty_Rewards/js/form/conditions-fieldset</item>
+                <item name="conditionActions" xsi:type="array">
+                    <item name="0" xsi:type="string">moneyspent</item>
+                </item>
+            </item>
+        </argument>
+        <field name="skip_discounted_products" sortOrder="10" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="string">0</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>number</dataType>
+                <label translate="true">Skip Discounted Products</label>
+                <notice translate="true">Select 'Yes if you'd like to restrict granting the reward points for products that have been discounted.</notice>
+                <dataScope>skip_discounted_products</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Config\Model\Config\Source\Yesno"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="grant_points_for_specific_products" sortOrder="20" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="string">0</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>number</dataType>
+                <label translate="true">Grant Points For Specific Products</label>
+                <notice translate="true">Enable this setting if you’d like the customers to get reward points for purchasing specific products.</notice>
+                <dataScope>grant_points_for_specific_products</dataScope>
+                <switcherConfig>
+                    <enabled>true</enabled>
+                    <rules>
+                        <rule name="0">
+                            <value>1</value>
+                            <actions>
+                                <action name="0">
+                                    <target>amasty_rewards_rule_form.amasty_rewards_rule_form.earning_config.action_for_earning</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>amasty_rewards_rule_form.amasty_rewards_rule_form.earning_config.products_sku</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="2">
+                                    <target>amasty_rewards_rule_form.amasty_rewards_rule_form.earning_config.categories</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>0</value>
+                            <actions>
+                                <action name="0">
+                                    <target>amasty_rewards_rule_form.amasty_rewards_rule_form.earning_config.action_for_earning</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>amasty_rewards_rule_form.amasty_rewards_rule_form.earning_config.products_sku</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>amasty_rewards_rule_form.amasty_rewards_rule_form.earning_config.categories</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                </switcherConfig>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Config\Model\Config\Source\Yesno"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="action_for_earning" sortOrder="30" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="string">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>number</dataType>
+                <label translate="true">Action</label>
+                <dataScope>action_for_earning</dataScope>
+                <switcherConfig>
+                    <enabled>true</enabled>
+                    <rules>
+                        <rule name="0">
+                            <value>0</value>
+                            <actions>
+                                <action name="0">
+                                    <target>amasty_rewards_rule_form.amasty_rewards_rule_form.earning_config.products_sku</target>
+                                    <callback>set</callback>
+                                    <params>
+                                        <param name="0" xsi:type="string">notice</param>
+                                        <param name="1" xsi:type="string" translate="true">Specify a comma-separated list of SKUs customers can’t get the reward points for.</param>
+                                    </params>
+                                </action>
+                                <action name="1">
+                                    <target>amasty_rewards_rule_form.amasty_rewards_rule_form.earning_config.categories</target>
+                                    <callback>set</callback>
+                                    <params>
+                                        <param name="0" xsi:type="string">notice</param>
+                                        <param name="1" xsi:type="string" translate="true">Select categories of products customers can’t get the reward points for.</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>1</value>
+                            <actions>
+                                <action name="0">
+                                    <target>amasty_rewards_rule_form.amasty_rewards_rule_form.earning_config.products_sku</target>
+                                    <callback>set</callback>
+                                    <params>
+                                        <param name="0" xsi:type="string">notice</param>
+                                        <param name="1" xsi:type="string" translate="true">Specify a comma-separated list of SKUs customers can get the reward points for.</param>
+                                    </params>
+                                </action>
+                                <action name="1">
+                                    <target>amasty_rewards_rule_form.amasty_rewards_rule_form.earning_config.categories</target>
+                                    <callback>set</callback>
+                                    <params>
+                                        <param name="0" xsi:type="string">notice</param>
+                                        <param name="1" xsi:type="string" translate="true">Select categories of products customers can get the reward points for.</param>
+                                    </params>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                </switcherConfig>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Amasty\Rewards\Model\Config\Source\IncludeExclude"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="products_sku" sortOrder="40" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">SKU</label>
+                <dataScope>products_sku</dataScope>
+                <notice translate="true">Specify a comma-separated list of SKUs customers can’t get the reward points for.</notice>
+                <tooltip>
+                    <description translate="true">Enter the details in either SKU or Category field to make this feature work. Otherwise, it’ll be ignored and reward points will be granted for all products.</description>
+                </tooltip>
+            </settings>
+        </field>
+        <field name="categories" sortOrder="50" formElement="select" component="Magento_Catalog/js/components/new-category">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="${ $.namespace }.${ $.namespace }:responseData" xsi:type="string">setParsed</item>
+                    <item name="newOption" xsi:type="string">toggleOptionSelected</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="levelsVisibility" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Category</label>
+                <dataType>text</dataType>
+                <dataScope>categories</dataScope>
+                <componentType>field</componentType>
+                <notice translate="true">Select categories of products customers can’t get the reward points for.</notice>
+                <visible>true</visible>
+                <tooltip>
+                    <description translate="true">Enter the details in either SKU or Category field to make this feature work. Otherwise, it’ll be ignored and reward points will be granted for all products.</description>
+                </tooltip>
+                <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Catalog\Ui\Component\Product\Form\Categories\Options"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+    <fieldset name="labels">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Comments for Action in a Customer Account</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">50</item>
+                <item name="component" xsi:type="string">Amasty_Rewards/js/form/labels-fieldset</item>
+                <item name="initializeFieldsetDataByDefault" xsi:type="boolean">true</item>
+                <item name="template" xsi:type="string">Amasty_Rewards/form/fieldset</item>
+            </item>
+        </argument>
+        <field name="store_labels[0]">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Default Action Comment for All Store Views</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">rewards_rule</item>
+                    <item name="dataScope" xsi:type="string">store_labels[0]</item>
+                </item>
+            </argument>
+        </field>
+        <container name="store_view_labels">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+            <htmlContent name="html_content_labels">
+                <argument name="block" xsi:type="object">Amasty\Rewards\Block\Adminhtml\Rule\Edit\Tab\Labels</argument>
+            </htmlContent>
+        </container>
+    </fieldset>
+</form>

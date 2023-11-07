@@ -1,0 +1,67 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+?>
+<script>
+    require([
+        'jquery'
+    ], function($) {
+        var $ruleSpentAmount = $('#rule_spent_amount');
+        var $rulePromoSkus = $('#rule_promo_skus');
+        var $ruleDaysInactive = $('#rule_inactive_days');
+        var $ruleRecurring = $('#rule_recurring');
+
+        $ruleSpentAmount.add($rulePromoSkus)
+            .closest("div.field").hide();
+
+        $ruleDaysInactive.add($ruleRecurring)
+            .closest("div.field").hide();
+
+        var spentAmount = $ruleSpentAmount.val();
+        if (spentAmount === '') {
+            $ruleSpentAmount.val('0');
+        }
+
+        var daysInactive = $ruleDaysInactive.val();
+        if (daysInactive === '') {
+            $ruleDaysInactive.val('0');
+        }
+
+        $(document).ready(function() {
+            toogleCondition($('#rule_action').val());
+        });
+
+        $('#rule_action').on('change', function() {
+            $('#amasty_rewards_rule_edit_tabs_conditions').show();
+            toogleCondition(this.value);
+        });
+
+        function toogleCondition(value) {
+            $ruleSpentAmount.add($rulePromoSkus)
+                .closest("div.field").hide();
+            $ruleDaysInactive.add($ruleRecurring)
+                .closest("div.field").hide();
+            switch (value) {
+                case 'registration':
+                case 'birthday':
+                case 'subscription':
+                case 'review':
+                    $('#amasty_rewards_rule_edit_tabs_conditions').hide();
+                    break;
+                case 'moneyspent':
+                    $ruleSpentAmount.add($rulePromoSkus)
+                        .closest("div.field").show();
+                    break;
+                case 'visit':
+                    $('#amasty_rewards_rule_edit_tabs_conditions').hide();
+                    $ruleDaysInactive.add($ruleRecurring)
+                        .closest("div.field").show();
+                    break;
+            }
+        }
+
+    });
+</script>

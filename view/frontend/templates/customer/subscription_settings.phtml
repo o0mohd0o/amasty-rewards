@@ -1,0 +1,33 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+/**
+ * @var $block Amasty\Rewards\Block\Frontend\Customer\SubscriptionSettings
+ */
+$showEarning = $block->showEarningCheckbox();
+$showExpire = $block->showExpireCheckbox();
+?>
+<?php if ($showEarning || $showExpire): ?>
+    <form action="<?= $block->getUrl('amrewards/customer/updateNotification') ?>" method="post" id="notification-settings">
+        <fieldset class="fieldset">
+            <legend class="legend"><span><?= __('Notification options') ?></span></legend>
+            <?php if ($showEarning): ?>
+                <div class="field choice">
+                    <input type="checkbox" name="subscribe_earning" id="subscribe_earning" value="1" <?php if ($block->isSubscribedForEarnings()): ?> checked="checked"<?php endif; ?> />
+                    <label class="label" for="subscribe_earning"><span><?=  __('Receive emails when reward points are added to the balance') ?></span></label>
+                </div>
+            <?php endif; ?>
+            <?php if ($showExpire): ?>
+                <div class="field choice">
+                    <input type="checkbox" name="subscribe_expire" id="subscribe_expire" value="1" <?php if ($block->isSubscribedForExpiring()): ?> checked="checked"<?php endif; ?>/>
+                    <label class="label" for="subscribe_expire"><span><?= __('Receive emails when reward points are about to expire') ?></span></label>
+                </div>
+            <?php endif; ?>
+            <button type="submit" class="action save primary" title="<?= __('Save Notification Options') ?>"><span><?= __('Save Notification Options') ?></span></button>
+        </fieldset>
+    </form>
+    <br/>
+<?php endif; ?>

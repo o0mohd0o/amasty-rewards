@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_account_navigation">
+            <block after="customer-account-navigation-account-link" ifconfig="amrewards/general/enabled" class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-amrewards-rewards-link">
+                <arguments>
+                    <argument name="path" xsi:type="string">amrewards</argument>
+                    <argument name="label" xsi:type="string" translate="true">Reward Points Amasty</argument>
+                </arguments>
+            </block>
+            <block after="customer-account-amrewards-rewards-link" ifconfig="amrewards/general/enabled" class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-amrewards-rewards-history">
+                <arguments>
+                    <argument name="path" xsi:type="string">amrewards/history</argument>
+                    <argument name="label" xsi:type="string" translate="true">Reward Points History</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

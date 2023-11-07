@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <update handle="amasty_rewards_expiration_ajaxgrid" />
+    <container name="root">
+        <block class="Amasty\Rewards\Block\Adminhtml\Edit\Tab\View\SubscriptionSettings" name="subscription_notification" template="Amasty_Rewards::tab/view/subscription_settings_js.phtml"/>
+        <block class="Amasty\Rewards\Block\Adminhtml\Edit\Tab\View\PersonalInfo" name="personal_info"
+               template="Amasty_Rewards::tab/view/personal_info.phtml">
+            <container name="status_grid">
+                <uiComponent name="amasty_rewards_status_listing"/>
+            </container>
+        </block>
+        <block class="Amasty\Rewards\Block\Adminhtml\Rewards\Edit\NewReward" name="add-points" template="Amasty_Rewards::rewards/edit/new/form.phtml"/>
+    </container>
+</layout>

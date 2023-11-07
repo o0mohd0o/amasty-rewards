@@ -1,0 +1,159 @@
+{
+    "amasty_rewards_history": {
+        "column": {
+            "id": true,
+            "customer_id": true,
+            "date": true,
+            "action_id": true,
+            "params": true
+        },
+        "index": {
+            "AMASTY_REWARDS_HISTORY_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "amasty_rewards_quote": {
+        "column": {
+            "id": true,
+            "quote_id": true,
+            "reward_points": true
+        },
+        "index": {
+            "AMASTY_REWARDS_QUOTE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "amasty_rewards_customer_balance": {
+        "column": {
+            "id": true,
+            "customer_id": true,
+            "balance": true
+        },
+        "index": {
+            "AMASTY_REWARDS_CUSTOMER_BALANCE_CUSTOMER_ID": true,
+            "AMASTY_REWARDS_CUSTOMER_BALANCE_BALANCE": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "AMASTY_REWARDS_CSTR_BALANCE_CSTR_ID_CSTR_ENTT_ENTT_ID": true
+        }
+    },
+    "amasty_rewards_rewards": {
+        "column": {
+            "id": true,
+            "action_date": true,
+            "amount": true,
+            "comment": true,
+            "action": true,
+            "points_left": true,
+            "customer_id": true,
+            "expiration_id": true,
+            "visible_for_customer": true,
+            "admin_name": true,
+            "expiration_date": true
+        },
+        "index": {
+            "AMASTY_REWARDS_REWARDS_ID": true,
+            "AMASTY_REWARDS_REWARDS_CUSTOMER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "AMASTY_REWARDS_REWARDS_CSTR_ID_CSTR_ENTT_ENTT_ID": true
+        }
+    },
+    "amasty_rewards_rule": {
+        "column": {
+            "rule_id": true,
+            "is_active": true,
+            "name": true,
+            "conditions_serialized": true,
+            "action": true,
+            "amount": true,
+            "spent_amount": true,
+            "inactive_days": true,
+            "recurring": true,
+            "expiration_behavior": true,
+            "expiration_period": true,
+            "skip_discounted_products": true,
+            "grant_points_for_specific_products": true,
+            "action_for_earning": true,
+            "products_sku": true,
+            "categories": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "amasty_rewards_rule_label": {
+        "column": {
+            "label_id": true,
+            "rule_id": true,
+            "store_id": true,
+            "label": true
+        },
+        "index": {
+            "AMASTY_REWARDS_RULE_LABEL_STORE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_8B2688ED9D2BE4427854BD7F1B701C0D": true,
+            "AMASTY_REWARDS_RULE_LABEL_STORE_ID_STORE_STORE_ID": true,
+            "AMASTY_REWARDS_RULE_LABEL_RULE_ID_STORE_ID": true
+        }
+    },
+    "amasty_rewards_rule_website": {
+        "column": {
+            "rule_id": true,
+            "website_id": true
+        },
+        "index": {
+            "AMASTY_REWARDS_RULE_WEBSITE_WEBSITE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_758620E3A7CBF37DBC12AF1C5E796B86": true,
+            "AMASTY_REWARDS_RULE_WS_WS_ID_STORE_WS_WS_ID": true
+        }
+    },
+    "amasty_rewards_rule_customer_group": {
+        "column": {
+            "rule_id": true,
+            "customer_group_id": true
+        },
+        "index": {
+            "AMASTY_REWARDS_RULE_CUSTOMER_GROUP_CUSTOMER_GROUP_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_63A25BF83DAFE9AF71FABA48F3A24B21": true,
+            "FK_6A206E36537CB091729B2C4397AEB7AA": true
+        }
+    },
+    "amasty_rewards_status_history": {
+        "column": {
+            "status_id": true,
+            "customer_id": true,
+            "date": true,
+            "action": true,
+            "admin_name": true
+        },
+        "index": {
+            "AMASTY_REWARDS_STATUS_HISTORY_STATUS_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "AMASTY_REWARDS_STS_HISTORY_CSTR_ID_CSTR_ENTT_ENTT_ID": true
+        }
+    },
+    "sales_order_grid": {
+        "column": {
+            "am_earn_reward_points": true,
+            "am_refund_reward_points": true,
+            "am_deduct_reward_points": true
+        }
+    }
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <link src="Amasty_Rewards::amcharts/amcharts.js" />
+        <link src="Amasty_Rewards::amcharts/serial.js" />
+        <css src="Amasty_Rewards::css/reports.css" />
+    </head>
+    <body>
+        <referenceContainer name="page.main.actions">
+            <container htmlClass="amrewards-actions-container" htmlTag="div">
+                <block class="Amasty\Rewards\Block\Adminhtml\Reports\Configurator" />
+            </container>
+        </referenceContainer>
+        <referenceContainer name="page.main.container">
+            <block class="Magento\Framework\View\Element\Template" template="Amasty_Rewards::reports/statistics.phtml"  />
+        </referenceContainer>
+    </body>
+</page>

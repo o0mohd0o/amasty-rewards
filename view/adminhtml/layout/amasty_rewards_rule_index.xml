@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<!--
+/**
+ * Copyright © 2015 Amasty. All rights reserved.
+ */
+-->
+
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <referenceContainer name="content" label="Root">
+        <block class="Amasty\Rewards\Block\Adminhtml\Rule" name="adminhtml.amasty.rewards.rule.grid.container">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.amasty.rewards.rule.grid" as="grid">
+                <arguments>
+                    <argument name="id" xsi:type="string">amasty_rewards_rule_grid</argument>
+                    <argument name="dataSource" xsi:type="object">Amasty\Rewards\Model\ResourceModel\Rule\Collection\Grid</argument>
+                    <argument name="default_sort" xsi:type="string">rule_id</argument>
+                    <argument name="default_dir" xsi:type="string">ASC</argument>
+                    <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                </arguments>
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.amasty.rewards.rule.grid.massaction" as="grid.massaction">
+                    <arguments>
+                        <argument name="massaction_id_field" xsi:type="string">rule_id</argument>
+                        <argument name="form_field_name" xsi:type="string">rules</argument>
+                        <argument name="use_select_all" xsi:type="string">1</argument>
+                        <argument name="options" xsi:type="array">
+                            <item name="massActivate" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Activate</item>
+                                <item name="url" xsi:type="url" path="*/*/massAction">
+                                    <param name="_current">1</param>
+                                    <param name="action">activate</param>
+                                </item>
+                                <item name="confirm" xsi:type="string" translate="true">Are you sure?</item>
+                            </item>
+                            <item name="massInactivate" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Inactivate</item>
+                                <item name="url" xsi:type="url" path="*/*/massAction">
+                                    <param name="_current">1</param>
+                                    <param name="action">inactivate</param>
+                                </item>
+                                <item name="confirm" xsi:type="string" translate="true">Are you sure?</item>
+                            </item>
+                            <item name="delete" xsi:type="array">
+                                <item name="label" xsi:type="string" translate="true">Delete</item>
+                                <item name="url" xsi:type="url" path="*/*/massAction">
+                                    <param name="_current">1</param>
+                                    <param name="action">delete</param>
+                                </item>
+                                <item name="confirm" xsi:type="string" translate="true">Are you sure?</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
+
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="adminhtml.amasty.rewards.rule.grid.columnSet">
+                    <arguments>
+                        <argument name="rowUrl" xsi:type="array">
+                            <item name="path" xsi:type="string">*/*/edit</item>
+                            <item name="extraParamsTemplate" xsi:type="array">
+                                <item name="id" xsi:type="string">getId</item>
+                            </item>
+                        </argument>
+                    </arguments>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="id">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">ID</argument>
+                            <argument name="index" xsi:type="string">rule_id</argument>
+                            <argument name="column_css_class" xsi:type="string">col-id</argument>
+                            <argument name="header_css_class" xsi:type="string">col-id</argument>
+                        </arguments>
+                    </block>
+
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="name">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Name</argument>
+                            <argument name="index" xsi:type="string">name</argument>
+                        </arguments>
+                    </block>
+
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Action</argument>
+                            <argument name="renderer" xsi:type="string">Amasty\Rewards\Block\Adminhtml\Rule\Grid\Renderer\Actions</argument>
+                            <argument name="index" xsi:type="string">action</argument>
+                        </arguments>
+                    </block>
+
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="amount">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Amount</argument>
+                            <argument name="index" xsi:type="string">amount</argument>
+                        </arguments>
+                    </block>
+
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="is_active">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Status</argument>
+                            <argument name="index" xsi:type="string">is_active</argument>
+                            <argument name="type" xsi:type="string">options</argument>
+                            <argument name="options" xsi:type="array">
+                                <item name="disabled" xsi:type="array">
+                                    <item name="value" xsi:type="string">0</item>
+                                    <item name="label" xsi:type="string" translate="true">Inactive</item>
+                                </item>
+                                <item name="enabled" xsi:type="array">
+                                    <item name="value" xsi:type="string">1</item>
+                                    <item name="label" xsi:type="string" translate="true">Active</item>
+                                </item>
+                            </argument>
+                        </arguments>
+                    </block>
+                </block>
+            </block>
+        </block>
+    </referenceContainer>
+</layout>

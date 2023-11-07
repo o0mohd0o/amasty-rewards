@@ -1,0 +1,20 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+    /** @var \Magento\Framework\View\Element\Template $block */
+    /** @var \Amasty\Rewards\ViewModel\RestrictionMessage $viewModel */
+    /** @var \Magento\Framework\Escaper $escaper */
+
+    $viewModel = $block->getData('view_model');
+?>
+
+<?php if ($viewModel->canShowMessage()): ?>
+    <div class="amrewards-info-message message info">
+        <p>
+            <?= /* @noEscape */ nl2br($escaper->escapeHtml($viewModel->getMessageText())) ?>
+        </p>
+    </div>
+<?php endif; ?>

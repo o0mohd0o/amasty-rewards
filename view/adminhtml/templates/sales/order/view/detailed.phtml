@@ -1,0 +1,42 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Sales\Block\Adminhtml\Order\View */
+/** @var $escaper \Magento\Framework\Escaper */
+/** @var $viewModel Amasty\Rewards\ViewModel\Adminhtml\Order\View */
+
+$viewModel = $block->getViewModel();
+$order = $block->getOrder();
+?>
+<?php if ($viewModel && $viewModel->isNeedToDisplay()): ?>
+    <div class="admin__page-section-item-title amrewards-table-title">
+        <span class="title"><?= $escaper->escapeHtml(__('Reward Points')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <table class="admin__table-secondary data-table amrewards-order-table">
+            <tbody>
+            <?php foreach ($viewModel->getPointsTotals() as $total): ?>
+            <tr>
+                <td>
+                     <span class="amrewards-label">
+                            <?= $escaper->escapeHtml(__($total->getLabel())) ?>
+                    </span>
+                </td>
+                <td>
+                    <span class="value">
+                        <label class="amrewards-value">
+                            <?= $escaper->escapeHtml($total->getPointsValue($order)) ?>
+                        </label>
+                    </span>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php endif; ?>

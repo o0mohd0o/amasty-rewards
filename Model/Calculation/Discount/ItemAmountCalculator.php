@@ -1,0 +1,46 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+
+namespace Amasty\Rewards\Model\Calculation\Discount;
+
+use Amasty\Rewards\Model\Calculation\ItemAmountCalculatorInterface;
+use Magento\Quote\Model\Quote\Item as QuoteItem;
+use Magento\Sales\Model\Order\Item as OrderItem;
+use Magento\Tax\Model\Config as TaxConfig;
+
+class ItemAmountCalculator implements ItemAmountCalculatorInterface
+{
+    /**
+     * @var TaxConfig
+     */
+    private $taxConfig;
+
+    public function __construct(
+        TaxConfig $taxConfig
+    ) {
+        $this->taxConfig = $taxConfig;
+    }
+
+    /**
+     * @param QuoteItem|OrderItem $item
+     * @return float
+     */
+    public function calculateItemAmount($item): float
+    {
+        $itemPrice = $item->getBasePriceInclTax();
+        if (!$this->taxConfig->discountTax()) {
+            $itemPrice = $item->getBasePrice();
+        }
+
+        $amount = ($itemPrice * $item->getQty()) - $item->getBaseDiscountAmount();
+
+        return (float)max(0, $amount);
+    }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="happy_birthday_amrewards" instance="Amasty\Rewards\Cron\HappyBirthday" method="execute">
+            <schedule>1 0 * * *</schedule>
+        </job>
+        <job name="customer_visitor_amrewards" instance="Amasty\Rewards\Cron\CustomerVisitor" method="execute">
+            <schedule>0 0 * * *</schedule>
+        </job>
+        <job name="expiration_points_amrewards" instance="Amasty\Rewards\Cron\ExpirationPoints" method="execute">
+            <schedule>0 0 * * *</schedule>
+        </job>
+    </group>
+</config>

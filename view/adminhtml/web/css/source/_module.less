@@ -1,0 +1,71 @@
+//
+//  Amasty Reward Points Admin
+//  ____________________________________________
+
+//
+//  Imports
+//  ----------------------------------------------
+
+@import "module/_customer-account";
+
+//
+//  Common
+//  ----------------------------------------------
+
+& when (@media-common = true) {
+    .amrewards-table-title {
+        margin-top: 20px;
+    }
+
+    .amrewards-status-container {
+        .amrewards-grid-title {
+            margin-top: 20px;
+        }
+
+        .amrewards-grid {
+            box-sizing: border-box;
+            margin-bottom: 40px;
+        }
+
+        .amrewards-toggle {
+            margin-top: 20px;
+            padding-left: 80px;
+        }
+
+        .amrewards-switcher {
+            padding-bottom: 4px;
+        }
+
+        .amrewards-label {
+            margin-right: 10px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .amrewards-notice {
+            display: block;
+            padding-left: 280px;
+            font-size: 12px;
+        }
+    }
+
+    .amrewards-order-table {
+        & {
+            font-weight: @font-weight__bold;
+        }
+
+        tr > td:nth-child(2) {
+            text-align: right;
+        }
+    }
+
+    .admin__field-control {
+        &._with-tooltip {
+            > .action-select-wrap {
+                &:extend(.admin__field-control._with-tooltip > .admin__control-text all);
+
+                display: inline-block;
+            }
+        }
+    }
+}

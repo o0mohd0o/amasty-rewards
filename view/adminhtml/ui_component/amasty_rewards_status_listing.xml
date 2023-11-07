@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                amasty_rewards_status_listing.amasty_rewards_status_listing_data_source
+            </item>
+            <item name="deps" xsi:type="string">
+                amasty_rewards_status_listing.amasty_rewards_status_listing_data_source
+            </item>
+        </item>
+        <item name="spinner" xsi:type="string">amasty_rewards_status_listing_columns</item>
+    </argument>
+    <dataSource name="amasty_rewards_status_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">status_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider class="Amasty\Rewards\Ui\DataProvider\Status\ListingDataProvider"
+                      name="amasty_rewards_status_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>status_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>false</sticky>
+        </settings>
+        <paging name="listing_paging">
+            <settings>
+                <pageSize>5</pageSize>
+            </settings>
+        </paging>
+    </listingToolbar>
+    <columns name="amasty_rewards_status_listing_columns">
+        <column name="date" sortOrder="10">
+            <settings>
+                <sorting>desc</sorting>
+                <label translate="true">Date</label>
+            </settings>
+        </column>
+        <column name="action" sortOrder="20">
+            <settings>
+                <bodyTmpl>Amasty_Rewards/grid/cell/action</bodyTmpl>
+                <sortable>false</sortable>
+                <label translate="true">Action</label>
+            </settings>
+        </column>
+        <column name="admin_name" sortOrder="30">
+            <settings>
+                <sortable>false</sortable>
+                <label translate="true">Admin Name</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

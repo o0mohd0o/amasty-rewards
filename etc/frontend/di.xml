@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Layout\Reader\Move">
+        <plugin name="Amasty_Rewards::layoutMoveDirectiveChange" type="Amasty\Rewards\Plugin\Layout\LayoutMoveDirectiveChange"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ListProduct">
+        <plugin sortOrder="1" name="amastyRewardsListProduct" type="Amasty\Rewards\Plugin\Block\Product\ListProductPlugin"/>
+    </type>
+    <type name="Magento\Customer\CustomerData\SectionPoolInterface">
+        <arguments>
+            <argument name="sectionSourceMap" xsi:type="array">
+                <item name="rewards" xsi:type="string">Amasty\Rewards\CustomerData\Balance</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Checkout\Block\Onepage">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="amastyRewards" sortOrder="5" xsi:type="object">Amasty\Rewards\Block\Frontend\LayoutProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="amrewards_notification_balance_earn_template" label="Reward Points Earned" file="balance_earn.html" type="html" module="Amasty_Rewards" area="frontend"/>
+    <template id="amrewards_notification_balance_earn_template_modern" label="Reward Points Earned Modern" file="balance_earn_modern.html" type="html" module="Amasty_Rewards" area="frontend"/>
+    <template id="amrewards_notification_points_expiring_template" label="Reward Points Expiring" file="points_expiring.html" type="html" module="Amasty_Rewards" area="frontend"/>
+    <template id="amrewards_notification_points_expiring_template_modern" label="Reward Points Expiring Modern" file="points_expiring_modern.html" type="html" module="Amasty_Rewards" area="frontend"/>
+</config>

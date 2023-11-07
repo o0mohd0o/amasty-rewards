@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <referenceContainer name="root">
+        <block class="Magento\Backend\Block\Widget\Grid" after="add-points" name="customer.rewards.index.edit.tab">
+            <arguments>
+                <argument name="dataSource" xsi:type="object">Amasty\Rewards\Model\ResourceModel\Rewards\Collection\ExpirationGrid</argument>
+                <argument name="id" xsi:type="string">expirationGrid</argument>
+                <argument name="use_ajax" xsi:type="string">true</argument>
+                <argument name="default_sort" xsi:type="string">entity_id</argument>
+                <argument name="grid_url" xsi:type="url" path="*/*/grid">
+                    <param name="_current">1</param>
+                    <param name="name">expiration</param>
+                </argument>
+                <argument name="product_configuration_helpers" xsi:type="array">
+                    <item name="default" xsi:type="string">Magento\Catalog\Helper\Product\Configuration</item>
+                </argument>
+            </arguments>
+            <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="customer.rewards.index.edit.tab.columnSet">
+                <arguments>
+                    <argument name="empty_text" xsi:type="string" translate="true">No Items Found</argument>
+                </arguments>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="amount">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Amount to Expire</argument>
+                        <argument name="index" xsi:type="string">expiring_amount</argument>
+                        <argument name="type" xsi:type="string">number</argument>
+                        <argument name="id" xsi:type="string">expiring_amount</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="expiration_date">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Expiration Date</argument>
+                        <argument name="index" xsi:type="string">expiration_date</argument>
+                        <argument name="gmtoffset" xsi:type="string">1</argument>
+                        <argument name="type" xsi:type="string">date</argument>
+                        <argument name="id" xsi:type="string">expiration_date</argument>
+                        <argument name="renderer" xsi:type="string">Amasty\Rewards\Block\Adminhtml\Rewards\Widget\Grid\Renderer\Date</argument>
+                    </arguments>
+                </block>
+            </block>
+        </block>
+    </referenceContainer>
+</layout>

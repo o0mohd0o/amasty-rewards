@@ -1,0 +1,41 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+// @codingStandardsIgnoreFile
+
+/**
+ * @var \Amasty\Rewards\Block\Adminhtml\Sales\Creditmemo $block
+ */
+$isReadOnly = $block->isReadOnlyFields();
+?>
+<?php if ($block->canRefundRewardPoints()): ?>
+    <div class="admin__field admin__field-option field-refund-reward-points">
+        <label for="amasty_refund_reward_points" class="admin__field-label" style="display: block; margin-bottom: 10px;">
+            <span><?= $block->escapeHtml(__('Refund to Reward Points')); ?></span>
+        </label>
+        <input type="text" class="input-text admin__control-text validate-not-negative-number" name="creditmemo[<?= \Amasty\Rewards\Block\Adminhtml\Sales\Creditmemo::REFUND_KEY ?>]"
+               value="<?= /* @noEscape */ $block->getRefundRewardPointsBalance(); ?>" id="amasty_refund_reward_points" <?= $isReadOnly ? 'readonly' : '' ?>>
+        <div data-bind="<?= $block->getTooltipConfig() ?>" class="hidden">Current Customer Balance: <?= $block->getCustomerRewardsBalance() ?> <strong>reward</strong> points.<br/>
+            Reward Points to Base Currency Rate: <?= (float)$block->getRate() ?> points = 1.<br/>
+            By the online refunding you can only return an amount less than the order grand total.<br/>
+            Through the offline refunding you can add extra reward points or even cover all orders by reward points, without money back.</div>
+        <div class="tooltip" data-tooltip-trigger="rewards_tooltip"><span class="help"><span></span></div>
+    </div>
+
+    <div class="admin__field admin__field-option field-refund-reward-points">
+        <label for="amasty_refund_reward_points" class="admin__field-label" style="display: block; margin-bottom: 10px;">
+            <span><?= $block->escapeHtml(__('Deduct Reward Points from Customer')); ?></span>
+        </label>
+        <input type="text" class="input-text admin__control-text validate-not-negative-number" name="creditmemo[<?= \Amasty\Rewards\Block\Adminhtml\Sales\Creditmemo::EARNED_POINTS_KEY ?>]"
+               value="<?= /* @noEscape */ $block->getCustomerDeductPoints(); ?>" id="amasty_earn_reward_points" <?= $isReadOnly ? 'readonly' : '' ?>>
+        <div data-bind="<?= $block->getTooltipConfig() ?>" class="hidden">
+            Current Customer Balance: <?= $block->getCustomerRewardsBalance() ?> <strong>reward</strong> points.<br/>
+            By default the customer will lose only points that were credited as a part of this order placement,
+            but you can remove more or less points, up to customer's current balance.
+        </div>
+        <div class="tooltip" data-tooltip-trigger="rewards_tooltip"><span class="help"><span></span></div>
+    </div>
+<?php endif; ?>

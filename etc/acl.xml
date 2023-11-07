@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Amasty_Rewards::config" title="Amasty Rewards Page" sortOrder="192012" />
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::marketing">
+                    <resource id="Magento_CatalogRule::promo">
+                        <resource id="Amasty_Rewards::rule" sortOrder="192012" title="Amasty Rewards Rule Page (API included)" />
+                    </resource>
+                </resource>
+                <resource id="Magento_Customer::customer">
+                    <resource id="Magento_Customer::manage">
+                        <resource id="Amasty_Rewards::customer" sortOrder="192012" title="Amasty Rewards Customer Settings (API included)" />
+                    </resource>
+                </resource>
+                <resource id="Magento_Reports::report">
+                    <resource id="Magento_Reports::report_marketing">
+                        <resource id="Amasty_Rewards::reports" sortOrder="192012" title="Amasty Rewards Reports Page" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

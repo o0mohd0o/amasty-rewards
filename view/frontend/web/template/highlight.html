@@ -1,0 +1,17 @@
+<!-- ko if: highlight().visible-->
+<div data-bind="css: frontend_class" class="amrewards-highlight-container">
+    <div class="caption">
+        <strong>
+            <!--ko text: captionStartText --><!-- /ko -->
+            <b data-bind="style: {'color': highlight().caption_color}, i18n: highlight().caption_text"></b>
+            <b data-bind="style: {'color': highlight().caption_color}, i18n: 'Reward Points'"></b>
+            <!-- ko if: highlight().registration_link -->
+            <a data-bind="attr: {href: highlight().registration_link}"><!--ko text: captionEndText --><!-- /ko --></a>
+            <!-- /ko -->
+            <!-- ko ifnot: highlight().registration_link -->
+            <!--ko text: captionEndText --><!-- /ko -->
+            <!-- /ko -->
+        </strong>
+    </div>
+</div>
+<!-- /ko -->

@@ -1,0 +1,22 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+/** @var \Magento\Backend\Block\Template $block */
+?>
+<?php
+/** @var \Amasty\Rewards\ViewModel\System\Config\Note $noteViewModel */
+$noteViewModel = $block->getData('amrewards_note_view_model');
+?>
+
+<script type="text/x-magento-init">
+    {
+        "#amrewards_points_spending_config_action": {
+            "Amasty_Rewards/js/system/config/note-changer": {
+                "map" : <?= /** @noEscape */ $noteViewModel->getMap() ?>
+            }
+        }
+    }
+</script>

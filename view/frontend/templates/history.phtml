@@ -1,0 +1,63 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+/** @var $block \Amasty\Rewards\Block\Frontend\History */
+/** @var $escaper Magento\Framework\Escaper */
+?>
+<?php $rewards = $block->getRewards();
+if ($rewards && count($rewards)): ?>
+    <div class="table-wrapper orders-history">
+        <table class="data table table-order-items amrewards-info-table" id="my-orders-table">
+            <thead class="amrewards-table-header">
+                <tr>
+                    <th scope="col" class="col date"><?= $escaper->escapeHtml(__('Date')) ?></th>
+                    <th scope="col" class="col total"><?= $escaper->escapeHtml(__('Change')) ?></th>
+                    <th scope="col" class="col days-left"></th>
+                    <th scope="col" class="col status"><?= $escaper->escapeHtml(__('Comment')) ?></th>
+                    <th scope="col" class="col action"><?= $escaper->escapeHtml(__('Action')) ?></th>
+                    <th scope="col" class="col left"><?= $escaper->escapeHtml(__('Points Left')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($rewards as $reward): ?>
+                <tr>
+                    <td data-th="<?= $escaper->escapeHtml(__('Date')) ?>" class="col date">
+                        <?= $escaper->escapeHtml($block->formatDateByLocal($reward->getActionDate())) ?>
+                    </td>
+                    <td data-th="<?= $escaper->escapeHtml(__('Amount')) ?>" class="col amount">
+                        <?= $escaper->escapeHtml($block->getChangeAmount($reward->getAmount())) ?>
+                    </td>
+                    <td data-th="<?= $escaper->escapeHtml(__('Days Left')) ?>" class="col days-left">
+                    <?php if ($block->canExpire($reward)): ?>
+                        <div class="amrewards-expiration <?= $escaper->escapeHtml($block->getExpirationLabelClass($reward)) ?>">
+                            <?= $escaper->escapeHtml($block->getExpirationLabel($reward)) ?>
+                        </div>
+                    <?php endif; ?>
+                    </td>
+                    <td data-th="<?= $escaper->escapeHtml(__('Comment')) ?>" class="col comment">
+                        <?php if ($reward->getVisibleForCustomer()): ?>
+                            <?= $escaper->escapeHtml($reward->getComment()) ?>
+                        <?php endif; ?>
+                    </td>
+                    <td data-th="<?= $escaper->escapeHtml(__('Action')) ?>" class="col status">
+                        <?= $escaper->escapeHtml(__($block->getActionName($reward->getAction()))) ?>
+                    </td>
+                    <td data-th="<?= $escaper->escapeHtml(__('Points Left')) ?>" class="col status amrewards-pointsleft">
+                        <?= $escaper->escapeHtml($block->getChangedPontLeft($reward->getPointsLeft())) ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?= $block->getPagerHtml() ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty">
+        <span><?= $escaper->escapeHtml(__('You have no rewards.')) ?></span>
+    </div>
+<?php endif ?>

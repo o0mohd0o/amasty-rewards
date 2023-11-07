@@ -1,0 +1,117 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+use Amasty\Rewards\Model\ResourceModel\Rewards;
+
+/**
+ * @var \Amasty\Rewards\Block\Adminhtml\Edit\Tab\View\PersonalInfo $block
+ * @var $escaper Magento\Framework\Escaper
+ */
+
+$isEnableEarning = $block->isEnableEarning();
+$statistic = $block->getStatistic();
+
+?>
+
+<?php if ($statistic && count($statistic)): ?>
+    <div class="fieldset-wrapper customer-information">
+        <div class="amrewards-current-balance">
+            <span class="amrewards-balance"><?= $escaper->escapeHtml($statistic[Rewards::BALANCE]) ?></span>
+            <p class="amrewards-label"><?= $escaper->escapeHtml(__('Current Balance')) ?></p>
+        </div>
+        <p><?= /* @noEscape */ $block->getDeadlineComment(); ?></p>
+        <hr>
+        <div class="amrewards-total-info">
+            <span><?= $escaper->escapeHtml(__('Total Earned: ')) ?></span>
+            <strong><?= $escaper->escapeHtml(($statistic[Rewards::REWARDED]))?></strong>
+        </div>
+        <div class="amrewards-total-info">
+            <span><?= $escaper->escapeHtml(__('Total Spent: ')) ?></span>
+            <strong><?= $escaper->escapeHtml(($statistic[Rewards::REDEEMED]))?></strong>
+        </div>
+        <div>
+            <span><?= $escaper->escapeHtml(__('Expired: ')) ?></span>
+            <strong><?= $escaper->escapeHtml(($statistic[Rewards::EXPIRED]))?></strong>
+        </div>
+    </div>
+<?php endif; ?>
+
+<div class="amrewards-status-container">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?= $escaper->escapeHtml(__('Status')) ?></span>
+    </div>
+    <div class="amrewards-toggle">
+        <label class="admin__field-label amrewards-label">
+            <span><?= $escaper->escapeHtml(__('Enable Reward Program')) ?></span>
+        </label>
+        <div class="admin__actions-switch amrewards-switcher">
+            <input id="amrewards_forbid_earning_input"<?= $isEnableEarning ? ' checked="checked"' : '' ?>
+                   data-form-part="customer-information"
+                   name="amrewards_forbid_earning_input"
+                   class="admin__actions-switch-checkbox"
+                   type="checkbox"/>
+            <label class="admin__actions-switch-label"
+                   for="amrewards_forbid_earning_input">
+            <span data-text-on="<?= $escaper->escapeHtmlAttr(__('Yes')) ?>"
+                  data-text-off="<?= $escaper->escapeHtmlAttr(__('No')) ?>"
+                  class="admin__actions-switch-text"></span>
+            </label>
+        </div>
+    </div>
+    <span class="amrewards-notice">
+        <?= $escaper->escapeHtml(
+            __(
+                'Disable it if you’d like to exclude this customer from earning the reward points.'
+            )
+        ) ?>
+        </br>
+        <?= $escaper->escapeHtml(__('Note! It won’t affect manual balance adjustments.')) ?>
+    </span>
+    <div class="fieldset-wrapper-title amrewards-grid-title">
+        <span class="title"><?= $escaper->escapeHtml(__('Status History')) ?></span>
+    </div>
+    <div class="amrewards-grid">
+        <?= $block->getChildHtml('status_grid'); ?>
+    </div>
+</div>
+
+<button data-ui-id="widget-button-1"
+        onclick="jQuery('#add-points').modal('openModal')"
+        class="action-default scalable"
+        type="button"
+        title="Add or Deduct Points"
+        id="add_points_button">
+    <span>Add or Deduct Points</span>
+</button>
+<div class="fieldset-wrapper-title expiring-grid-title">
+    <span class="title"><?= $escaper->escapeHtml(__('Expiring Points Breakdown')) ?></span>
+</div>
+
+<script>
+    require([
+        'jquery',
+        'ko',
+        'uiRegistry',
+    ], function ($, ko, registry) {
+        'use strict';
+
+        $('.amrewards-grid').trigger('contentUpdated');
+
+        //apply binding for status history grid
+        registry.get('amasty_rewards_status_listing.amasty_rewards_status_listing', function (component) {
+            ko.applyBindings(component, $('.amrewards-grid')[0]);
+            component.source.reload();
+        });
+
+        //save amrewards_forbid_earning setting to customer data
+        $('#amrewards_forbid_earning_input').on('click', function () {
+            registry.get('customer_form.customer_form_data_source').set(
+                'data.customer.amrewards_forbid_earning',
+                $(this).is(':checked') ? 0 : 1
+            )
+        })
+    });
+</script>

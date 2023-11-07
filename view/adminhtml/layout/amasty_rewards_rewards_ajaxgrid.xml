@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <referenceContainer name="root">
+        <block class="Magento\Backend\Block\Widget\Grid" after="rewards-history" name="customer.rewards.history.edit.tab">
+            <arguments>
+                <argument name="dataSource" xsi:type="object">Amasty\Rewards\Model\ResourceModel\Rewards\Collection\RewardsHistoryGrid</argument>
+                <argument name="id" xsi:type="string">rewardsGrid</argument>
+                <argument name="use_ajax" xsi:type="string">true</argument>
+                <argument name="default_sort" xsi:type="string">action_date</argument>
+                <argument name="grid_url" xsi:type="url" path="*/*/grid">
+                    <param name="_current">1</param>
+                    <param name="name">rewards</param>
+                </argument>
+                <argument name="product_configuration_helpers" xsi:type="array">
+                    <item name="default" xsi:type="string">Magento\Catalog\Helper\Product\Configuration</item>
+                </argument>
+            </arguments>
+            <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="customer.rewards.history.edit.tab.columnSet">
+                <arguments>
+                    <argument name="empty_text" xsi:type="string" translate="true">No Items Found</argument>
+                </arguments>
+
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="action_date">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Date</argument>
+                        <argument name="index" xsi:type="string">action_date</argument>
+                        <argument name="gmtoffset" xsi:type="string">1</argument>
+                        <argument name="type" xsi:type="string">date</argument>
+                        <argument name="id" xsi:type="string">action_date</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="amount">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Change</argument>
+                        <argument name="index" xsi:type="string">amount</argument>
+                        <argument name="type" xsi:type="string">number</argument>
+                        <argument name="id" xsi:type="string">amount</argument>
+                        <argument name="renderer" xsi:type="string">Amasty\Rewards\Block\Adminhtml\Rewards\Widget\Grid\Renderer\Amount</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="comment">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Comment</argument>
+                        <argument name="id" xsi:type="string">comment</argument>
+                        <argument name="index" xsi:type="string">comment</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Action</argument>
+                        <argument name="id" xsi:type="string">action</argument>
+                        <argument name="index" xsi:type="string">action</argument>
+                        <argument name="renderer" xsi:type="string">Amasty\Rewards\Block\Adminhtml\Rewards\Widget\Grid\Renderer\Actions</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="points_left">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Points Left</argument>
+                        <argument name="id" xsi:type="string">points_left</argument>
+                        <argument name="index" xsi:type="string">points_left</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="admin_name">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Admin Name</argument>
+                        <argument name="id" xsi:type="string">admin_name</argument>
+                        <argument name="index" xsi:type="string">admin_name</argument>
+                        <argument name="sortable" xsi:type="boolean">true</argument>
+                    </arguments>
+                </block>
+            </block>
+        </block>
+    </referenceContainer>
+</layout>

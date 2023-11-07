@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Amasty\Rewards\Model\Rule\DataProvider">
+        <arguments>
+            <argument name="modifiersPool" xsi:type="object">Amasty\Rewards\Ui\DataProvider\Rule\Modifiers\Pool</argument>
+        </arguments>
+    </type>
+    <virtualType name="Amasty\Rewards\Ui\DataProvider\Rule\Modifiers\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="earning-form-modifier" xsi:type="array">
+                    <item name="class" xsi:type="string">Amasty\Rewards\Ui\DataProvider\Rule\Modifiers\RuleFormModifier</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Amasty\Rewards\Model\Config\Backend\Restrict\Entity">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="dataPersistor" xsi:type="object">Magento\Framework\App\Request\DataPersistorInterface</item>
+                <item name="utils" xsi:type="object">Amasty\Rewards\Model\Config\Utils</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Amasty\Rewards\Model\Config\Backend\Restrict\Skus" type="Amasty\Rewards\Model\Config\Backend\Restrict\Entity">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="filterModel" xsi:type="object">Amasty\Rewards\Model\ResourceModel\FilterSkus</item>
+                <item name="persistentName" xsi:type="string">amrewards_points_spending_config_sku</item>
+                <item name="errorMessage" xsi:type="string">The following SKUs are invalid: %1.</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Amasty\Rewards\Model\Config\Backend\Restrict\Categories" type="Amasty\Rewards\Model\Config\Backend\Restrict\Entity">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="filterModel" xsi:type="object">Amasty\Rewards\Model\ResourceModel\FilterCategories</item>
+                <item name="persistentName" xsi:type="string">amrewards_points_spending_config_category</item>
+                <item name="errorMessage" xsi:type="string">The following Category IDs are invalid: %1.</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Order View points totals facade START -->
+    <type name="Amasty\Rewards\ViewModel\Adminhtml\Order\View">
+        <arguments>
+            <argument name="totals" xsi:type="array">
+                <item name="earned" xsi:type="object">AmastyOrderPointsEarned</item>
+                <item name="refund" xsi:type="object">AmastyOrderPointsRefunded</item>
+                <item name="deduct" xsi:type="object">AmastyOrderPointsDeducted</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="AmastyOrderPointsEarned" type="Amasty\Rewards\ViewModel\Adminhtml\Order\TotalRenderer\DefaultRenderer">
+        <arguments>
+            <argument name="label" xsi:type="string" translate="true">Reward Points Added</argument>
+            <argument name="valueIndex" xsi:type="const">Amasty\Rewards\Api\Data\SalesQuote\OrderInterface::POINTS_EARN</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AmastyOrderPointsRefunded" type="Amasty\Rewards\ViewModel\Adminhtml\Order\TotalRenderer\DefaultRenderer">
+        <arguments>
+            <argument name="label" xsi:type="string" translate="true">Reward Points Refunded</argument>
+            <argument name="valueIndex" xsi:type="const">Amasty\Rewards\Api\Data\SalesQuote\OrderInterface::POINTS_REFUND</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AmastyOrderPointsDeducted" type="Amasty\Rewards\ViewModel\Adminhtml\Order\TotalRenderer\DefaultRenderer">
+        <arguments>
+            <argument name="label" xsi:type="string" translate="true">Reward Points Subtracted</argument>
+            <argument name="valueIndex" xsi:type="const">Amasty\Rewards\Api\Data\SalesQuote\OrderInterface::POINTS_DEDUCT</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\Totals">
+        <plugin name="Amasty_Rewards::OrderViewInfo" type="Amasty\Rewards\Plugin\Sales\Block\Adminhtml\Order\Totals\AddDetailedInfo"/>
+    </type>
+    <!-- Order View points totals facade END -->
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\Creditmemo\Totals">
+        <plugin name="Amasty_Rewards::CreditmemoViewInfo" type="Amasty\Rewards\Plugin\Sales\Block\Adminhtml\Order\Creditmemo\Totals\AddDetailedInfo"/>
+    </type>
+    <type name="\Magento\Sales\Model\Convert\Order">
+        <plugin name="Amasty_Rewards::SetRefundAmountToCreditmemo" type="Amasty\Rewards\Plugin\Sales\Model\Order\Convert\Order\SetRefundAmountToCreditmemo"/>
+    </type>
+</config>

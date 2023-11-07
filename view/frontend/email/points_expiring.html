@@ -1,0 +1,27 @@
+<!--@subject {{trans "%store_name: %total_rewards points are expiring soon" store_name=$store.getFrontendName() total_rewards=$total_rewards}} @-->
+
+<!--@vars {
+"var customer.getName()|escape":"Customer Name",
+"var total_rewards":"Total Amount of Rewards Points, that are expiring soon",
+"var store.getFrontendName()":"Store Name",
+"store url=\"\"":"Store URL"
+} @-->
+
+<p class="greeting">Dear {{trans "%name," name=$customer.getName()}}</p>
+
+<p>It's time to hurry!</p>
+
+<p>You can lose {{var total_rewards}} reward points in total if you don't act fast. Please see the breakdown below:</p>
+
+{{layout
+handle="amrewards_email_expiring"
+deadlines=$deadlines
+expirationString="Your $amount reward point bonus earned on $earn_date is about to expire in just $days_left days. You can use it to partially pay for your purchases at our store until $expiration_date."
+}}
+
+<p>Visit us at <a href="{{store url=""}}">{{var store.getFrontendName()}}</a><p>
+
+<p>Thank you, </br>
+    {{var store.getFrontendName()}} Team </p>
+
+<p>P.S. You can unsubscribe from this type of emails by logging in to your account and adjusting reward points notification settings.</p>

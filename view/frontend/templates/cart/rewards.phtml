@@ -1,0 +1,114 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+
+/**
+ * @var $block Amasty\Rewards\Block\Frontend\Cart\Rewards
+ */
+// @codingStandardsIgnoreFile
+
+if ($block->getCustomerId()) :
+
+    $pointsLeft = $block->getPoints();
+    $pointsUsed = $block->getUsedPoints();
+    $pointsRate = $block->getPointsRate();
+    $currentCurrency = $block->getCurrentCurrencyCode();
+    $rateForCurrency = $block->getRateForCurrency();
+?>
+<div class="amrewards-apply-container block reward" id="block-reward" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
+    <div class="title" data-role="title">
+        <strong id="block-reward-heading" role="heading" aria-level="2"><?php /* @escapeNotVerified */ echo __('Apply Rewards') ?></strong>
+    </div>
+
+    <div class="content" data-role="content" aria-labelledby="block-reward-heading">
+        <div class="pointsLeft" data-role="title">
+            <?php /* @escapeNotVerified */ echo __('You Have <strong>%1</strong> points left', $pointsLeft) ?>
+        </div>
+        <div class="amrewards-points-rate" data-role="title">
+            <?php /* @escapeNotVerified */ echo __('%3 for every %1%2', $pointsRate, $currentCurrency, $rateForCurrency) ?>
+            <?php if ($block->isTooltipEnabled()): ?>
+                <div class="field-tooltip">
+                    <span class="field-tooltip-action"
+                          data-amrewards-js="tooltip"
+                          title="<?= $block->getTooltipText() ?>"></span>
+                </div>
+
+                <script>
+                    require([
+                        'jquery',
+                        'Amasty_Rewards/vendor/tooltipster/js/tooltipster.min'
+                    ], function($, tooltipster){
+                        function isTouchDevice () {
+                            return ('ontouchstart' in window)
+                                || (navigator.maxTouchPoints > 0)
+                                || (navigator.msMaxTouchPoints > 0);
+                        }
+
+                        var tooltipTrigger = isTouchDevice() ? 'click' : 'hover';
+
+                        $(document).ready(function() {
+                            $('[data-amrewards-js="tooltip"]').tooltipster({
+                                position: 'right',
+                                contentAsHtml: true,
+                                interactive: true,
+                                trigger: tooltipTrigger
+                            });
+                        });
+                    });
+                </script>
+            <?php endif; ?>
+        </div>
+        <form id="discount-reward-form" class="amrewards-discount-form" action="<?php /* @escapeNotVerified */ echo $block->getUrl('amrewards/index/rewardPost') ?>" method="post">
+            <div class="amrewards-minpoints-note hidden">
+                <?=__('Note: You need at least %1 points to pay for the order with reward points.', $block->getMinimumRewardsBalance()) ?>
+            </div>
+            <div class="fieldset reward">
+                <input type="hidden" name="remove" id="remove-amreward" value="0" />
+                <div class="field">
+                    <label for="rewards_amount" class="label"><span><?php /* @escapeNotVerified */ echo __('Enter reward amount') ?></span></label>
+                    <div class="control">
+                        <input type="text" class="input-text validate-number" id="amreward_amount" name="amreward_amount" value="<?=$pointsUsed ?>"
+                            placeholder="<?=$block->escapeHtml(__('Enter reward amount'));?>" <?php if ($pointsUsed) : ?>disabled<?php endif; ?>/>
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <?php if (!$pointsUsed) : ?>
+                        <div class="primary">
+                            <button id="apply-amreward" class="action primary" type="button" value="<?php /* @escapeNotVerified */ echo __('Apply') ?>">
+                                <span><?php /* @escapeNotVerified */ echo __('Apply') ?></span>
+                            </button>
+                        </div>
+                    <?php else : ?>
+                        <div class="primary">
+                            <button id="cancel-amreward"  type="button" class="action primary" value="<?php /* @escapeNotVerified */ echo __('Cancel') ?>"><span><?php /* @escapeNotVerified */ echo __('Cancel Reward') ?></span></button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        require([
+            'jquery',
+            'Amasty_Rewards/js/amreward-points',
+            'domReady!'
+        ], function ($) {
+            var element = $('#discount-reward-form');
+
+            element.amrewardPoints({
+                "rewardAmount": "#amreward_amount",
+                "removeRewardSelector": "#remove-amreward",
+                "applyButton": "#apply-amreward",
+                "cancelButton": "#cancel-amreward",
+                "minimumNoteSelector": ".amrewards-minpoints-note",
+                "minimumBalance": <?php echo $block->getMinimumRewardsBalance(); ?>,
+                "customerBalance": <?php echo $block->getPoints(); ?>,
+                "usedPoints": <?php echo $block->getUsedPoints(); ?>
+            });
+        });
+    </script>
+</div>
+<?php endif; ?>

@@ -1,0 +1,79 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+/** @var \Amasty\Rewards\Block\Adminhtml\Sales\OrderCreate $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<?php if ($block->isCanUsePoint()): ?>
+<div class="admin__field field-apply-coupon-code field-apply-rewards">
+    <label class="admin__field-label">
+        <span><?= $escaper->escapeHtml(__('Apply Rewards Points for Order')) ?></span>
+    </label>
+    <div class="admin__field-control">
+        <input type="text"
+               class="admin__control-text"
+               id="amreward_amount"
+               value="<?= /* @noEscape  */ $block->getUsedRewards() ?>"
+               name="amreward_amount" />
+        <?= $block->getButtonHtml($escaper->escapeHtml(__('Apply')), 'applyRewards(); return false;') ?>
+    </div>
+    <p>
+        <?= /* @noEscape */
+        __(
+            'Current Customer Balance: %1 reward points.',
+            '<a id="amrewards_balance" href="javascript:void(0)" title="'
+            . __('Apply all available reward points') . '">'
+            . (float)$block->getCustomerRewardsBalance() . '</a>'
+        ) ?><br/>
+        <?= /* @noEscape */ __('Reward Points to Base Currency Rate: %1 points = 1.', (float)$block->getRate()) ?>
+        <?php if ($block->isTooltipEnabled()): ?>
+        <div class="admin__field-tooltip">
+            <a class="admin__field-tooltip-action action-help"
+               target="_blank"
+               tabindex="1"
+               data-bind="attr: {href: tooltip.link}"></a>
+            <div class="admin__field-tooltip-content"
+                 data-bind="html: tooltip.description"><?= /* @noEscape */ $block->getTooltipText() ?></div>
+        </div>
+        <?php endif; ?>
+    </p>
+    <?php if ($block->getUsedRewards()): ?>
+        <p>
+            <?= /* @noEscape */ __('Applied Reward Points: %1', $block->getUsedRewards()) ?>
+            <a id="rewards_cancel_button"
+               href="#"
+               title="<?= /* @noEscape */ __('Remove') ?>"
+               class="action-remove">
+                <span><?= /* @noEscape */ __('Remove') ?></span></a>
+        </p>
+    <?php endif; ?>
+</div>
+<script>
+    require([
+        'jquery',
+        'domReady!'
+    ], function ($) {
+        $('#rewards_cancel_button').on('click', function() {
+            $('#amreward_amount').val(0);
+            applyRewards();
+            return false;
+        });
+        $('#amrewards_balance').on('click', function() {
+            $('#amreward_amount').val('<?= (float)$block->getCustomerRewardsBalance() ?>');
+            applyRewards();
+            return false;
+        });
+        window.applyRewards = function () {
+            var data = {
+                'amreward_amount': $('#amreward_amount').val()
+            };
+            order.loadArea(['totals', 'items', 'billing_method'], true, data);
+
+            return false;
+        };
+    });
+</script>
+<?php endif; ?>

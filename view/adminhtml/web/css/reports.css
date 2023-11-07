@@ -1,0 +1,80 @@
+.amrewards-actions-container .form-inline {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+}
+
+.amrewards-actions-container .field-row {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.amrewards-actions-container .field-row:last-child {
+    margin-left: auto;
+}
+
+.amrewards-report-container {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.amrewards-report-statistics {
+    width: 35%;
+    max-width: 550px;
+    margin-right: 20px;
+}
+
+.amrewards-report-statistics > .amrewards-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.amrewards-reports-table {
+    width: 100%;
+}
+
+.amrewards-reports-table .amrewards-row {
+    border-bottom: 1px solid #ccc;
+}
+
+.amrewards-reports-table .amrewards-value {
+    text-align: right;
+}
+
+.amrewards-reports-table .amrewards-name {
+    padding: 10px 0;
+}
+
+.amrewards-report-chart {
+    width: 65%;
+    height: 300px;
+}
+
+.amrewards-reports-button {
+    font-size: 1.6rem;
+    background-color: #eb5202;
+    border-color: #eb5202;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.amrewards-reports-button:hover,
+.amrewards-reports-button:active,
+.amrewards-reports-button:focus {
+    background-color: #ba4000;
+    border-color: #b84002;
+    box-shadow: 0 0 0 1px #007bdb;
+    color: #fff;
+    text-decoration: none;
+}
+
+.label[for="rewards_reports_date_to"],
+.label[for="rewards_reports_date_from"],
+.ui-datepicker-trigger.v-middle,
+.amrewards-report-error {
+    display: none;
+}

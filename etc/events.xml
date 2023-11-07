@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="customer_register_success">
+        <observer name="amasty_rewards_customer_register" instance="Amasty\Rewards\Observer\CustomerRegisterSuccess" />
+    </event>
+
+    <event name="checkout_submit_all_after">
+        <observer name="amasty_checkout_submit_all_after" instance="Amasty\Rewards\Observer\CheckoutSubmitAllAfter" />
+    </event>
+
+    <event name="sales_model_service_quote_submit_before">
+        <observer name="amasty_rewards_set_points_values" instance="Amasty\Rewards\Observer\SetRewardPointsToOrder" />
+    </event>
+
+    <event name="paypal_express_place_order_success">
+        <observer name="amasty_paypal_express_place_order_success" instance="Amasty\Rewards\Observer\CheckoutSubmitAllAfter" />
+    </event>
+
+    <event name="adminhtml_customer_save_after">
+        <observer name="amasty_adminhtml_customer_save_after" instance="Amasty\Rewards\Observer\CustomerSave" />
+    </event>
+
+    <event name="amasty_rewards_api_data_ruleinterface_save_before">
+        <observer name="legacy_model_save" instance="Magento\Framework\EntityManager\Observer\BeforeEntitySave" />
+    </event>
+    <event name="amasty_rewards_api_data_ruleinterface_save_after">
+        <observer name="legacy_model_save" instance="Magento\Framework\EntityManager\Observer\AfterEntitySave" />
+    </event>
+    <event name="amasty_rewards_api_data_ruleinterface_delete_before">
+        <observer name="legacy_model_delete" instance="Magento\Framework\EntityManager\Observer\BeforeEntityDelete" />
+    </event>
+    <event name="amasty_rewards_api_data_ruleinterface_delete_after">
+        <observer name="legacy_model_delete" instance="Magento\Framework\EntityManager\Observer\AfterEntityDelete" />
+    </event>
+    <event name="amasty_rewards_api_data_ruleinterface_load_after">
+        <observer name="legacy_model_load" instance="Magento\Framework\EntityManager\Observer\AfterEntityLoad" />
+    </event>
+    <event name="controller_action_postdispatch_review_product_save">
+        <observer name="amasty_review_product_save" instance="Amasty\Rewards\Observer\ReviewProductSave" />
+    </event>
+    <event name="controller_action_postdispatch_review_product_massUpdateStatus">
+        <observer name="amasty_review_product_mass_update_status" instance="Amasty\Rewards\Observer\ReviewProductMassUpdateStatus" />
+    </event>
+    <event name="controller_action_postdispatch_amasty_advancedreview_review_massAllApprove">
+        <observer name="amasty_review_product_mass_all_approve" instance="Amasty\Rewards\Observer\ReviewProductMassAllApprove" />
+    </event>
+</config>

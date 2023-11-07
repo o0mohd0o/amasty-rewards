@@ -1,0 +1,100 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+use Amasty\Rewards\Api\Data\RewardsInterface;
+use Amasty\Rewards\Model\ResourceModel\Rewards;
+
+/** @var \Amasty\Rewards\Block\Frontend\Index $block */
+$rewardsExpiration = $block->getRewardsExpiration();
+$statistic = $block->getStatistic();
+/** @var $escaper Magento\Framework\Escaper */
+?>
+
+<?= $block->getChildHtml('info') ?>
+
+<?php if ($statistic && count($statistic)): ?>
+    <div class="fieldset-wrapper customer-information">
+        <div class="amrewards-current-balance">
+            <script>
+                require([
+                    'Magento_Customer/js/customer-data'
+                ], function (customerData) {
+                    customerData.initStorage();
+                    customerData.set(
+                        'rewards',
+                        {"balance": <?= $escaper->escapeHtml((float)$statistic[Rewards::BALANCE]) ?>}
+                    );
+                });
+
+            </script>
+            <span class="amrewards-balance"><?= $escaper->escapeHtml($statistic[Rewards::BALANCE]) ?></span>
+            <p class="amrewards-label"><?= $escaper->escapeHtml(__('Current Balance')) ?></p>
+        </div>
+        <?php if ($rewardsExpiration): ?>
+            <p><?= /* @noEscape */ $block->getDeadlineComment(current($rewardsExpiration)) ?></p>
+        <?php endif; ?>
+    </div>
+    <hr>
+    <div class="amrewards-qty-info">
+        <div class="amrewards-general">
+            <div class="fieldset-wrapper customer-information">
+                <div class="amrewards-total-info">
+                    <span><?= $escaper->escapeHtml(__('Total Earned: ')) ?></span>
+                    <strong><?= $escaper->escapeHtml($statistic[Rewards::REWARDED]) ?></strong>
+                </div>
+                <div class="amrewards-total-info">
+                    <span><?= $escaper->escapeHtml(__('Total Spent: ')) ?></span>
+                    <strong><?= $escaper->escapeHtml($statistic[Rewards::REDEEMED]) ?></strong>
+                </div>
+                <div>
+                    <span><?= $escaper->escapeHtml(__('Expired: ')) ?></span>
+                    <strong><?= $escaper->escapeHtml($statistic[Rewards::EXPIRED]) ?></strong>
+                </div>
+            </div>
+
+            <?php if ($rewardsExpiration && count($rewardsExpiration)): ?>
+                <div class="table-wrapper amrewards-expiring-wrapper">
+                    <p class="amrewards-title"><?= $escaper->escapeHtml(__('Expiring Points Breakdown')) ?></p>
+                    <table class="data table table-order-items amrewards-info-table" id="my-orders-table">
+                        <caption class="table-caption"><?= $escaper->escapeHtml(__('Rewards')) ?></caption>
+                        <thead>
+                        <tr>
+                            <th scope="col" class="col date"><?= $escaper->escapeHtml(__('Amount to Expire')) ?></th>
+                            <th scope="col" class="col total"><?= $escaper->escapeHtml(__('Expiration Date')) ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($rewardsExpiration as $rewardExpiration): ?>
+                            <tr>
+                                <td data-th="<?= $escaper->escapeHtml(__('Amount to Expire')) ?>" class="col amount">
+                                    <?= $escaper->escapeHtml($rewardExpiration[RewardsInterface::AMOUNT]) ?>
+                                </td>
+                                <td data-th="<?= $escaper->escapeHtml(__('Expiration Date')) ?>"
+                                    class="col date"><?= $escaper->escapeHtml($block->getDate($rewardExpiration)) ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($block->getPagerHtml()): ?>
+                <div class="order-products-toolbar toolbar bottom"><?= $block->getPagerHtml() ?></div>
+            <?php endif ?>
+        </div>
+        <div class="amrewards-description">
+            <?= /* @noEscape */ $block->getDescriptionMessage() ?>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="message info empty">
+        <span><?= $escaper->escapeHtml(__('You have no rewards.')) ?></span>
+    </div>
+    <div class="amrewards-description">
+        <?= /* @noEscape */ $block->getDescriptionMessage() ?>
+    </div>
+<?php endif ?>

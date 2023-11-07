@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Amasty\Rewards\Api\Data\RuleInterface" type="Amasty\Rewards\Model\Rule"/>
+    <preference for="Amasty\Rewards\Api\RuleRepositoryInterface" type="Amasty\Rewards\Model\Repository\RuleRepository"/>
+    <preference for="Amasty\Rewards\Api\CheckoutRewardsManagementInterface" type="Amasty\Rewards\Model\CheckoutRewardsManagement"/>
+    <preference for="Amasty\Rewards\Api\Data\HistoryInterface" type="Amasty\Rewards\Model\History"/>
+    <preference for="Amasty\Rewards\Api\HistoryRepositoryInterface" type="Amasty\Rewards\Model\Repository\HistoryRepository"/>
+    <preference for="Amasty\Rewards\Api\Data\RewardsInterface" type="Amasty\Rewards\Model\Rewards"/>
+    <preference for="Amasty\Rewards\Api\RewardsRepositoryInterface" type="Amasty\Rewards\Model\Repository\RewardsRepository"/>
+    <preference for="Amasty\Rewards\Api\RewardsProviderInterface" type="Amasty\Rewards\Model\RewardsProvider"/>
+    <preference for="Amasty\Rewards\Api\CheckoutHighlightManagementInterface" type="Amasty\Rewards\Model\Checkout\HighlightManagement"/>
+    <preference for="Amasty\Rewards\Api\CatalogHighlightManagementInterface" type="\Amasty\Rewards\Model\Catalog\Highlight\Management"/>
+    <preference for="Amasty\Rewards\Api\Data\HighlightInterface" type="Amasty\Rewards\Model\Highlight"/>
+    <preference for="Amasty\Rewards\Api\Data\ExpirationArgumentsInterface" type="Amasty\Rewards\Model\ExpirationArguments"/>
+    <preference for="Amasty\Rewards\Api\GuestHighlightManagementInterface" type="Amasty\Rewards\Model\GuestHighlightManagement"/>
+    <preference for="Amasty\Rewards\Model\Calculation\ItemAmountCalculatorInterface" type="Amasty\Rewards\Model\Calculation\Discount\ItemAmountCalculator"/>
+    <preference for="Amasty\Rewards\Api\Data\CustomerBalanceInterface" type="Amasty\Rewards\Model\ResourceModel\CustomerBalance"/>
+    <preference for="Amasty\Rewards\Api\CustomerBalanceRepositoryInterface" type="Amasty\Rewards\Model\Repository\CustomerBalanceRepository"/>
+
+    <type name="Magento\Newsletter\Model\Subscriber">
+        <plugin name="Amasty_Rewards::OnSubscribe" type="Amasty\Rewards\Plugin\Newsletter\Model\Subscriber"/>
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Order">
+        <plugin name="Amasty_Rewards::OnOrderComplete" type="Amasty\Rewards\Plugin\Sales\Model\ResourceModel\Order"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="Amasty_Rewards::setPointsData" type="Amasty\Rewards\Plugin\Quote\Model\Quote\Item\ToOrderItem\SetPointsData"/>
+    </type>
+    <type name="Magento\ImportExport\Model\Import\AbstractEntity">
+        <plugin name="Amasty_Rewards::checkIsAttributeParticular" type="Amasty\Rewards\Plugin\ImportExport\Model\Import\AbstractEntity\CheckIsAttributeParticular" />
+    </type>
+
+    <virtualType name="Amasty\Rewards\Model\ResourceModel\Rule\AssociatedEntityMap" type="Magento\Framework\DataObject">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="website" xsi:type="array">
+                    <item name="associations_table" xsi:type="string">amasty_rewards_rule_website</item>
+                    <item name="rule_id_field" xsi:type="string">rule_id</item>
+                    <item name="entity_id_field" xsi:type="string">website_id</item>
+                </item>
+                <item name="customer_group" xsi:type="array">
+                    <item name="associations_table" xsi:type="string">amasty_rewards_rule_customer_group</item>
+                    <item name="rule_id_field" xsi:type="string">rule_id</item>
+                    <item name="entity_id_field" xsi:type="string">customer_group_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Amasty\Rewards\Model\ResourceModel\Rule">
+        <arguments>
+            <argument name="associatedEntityMap" xsi:type="object">Amasty\Rewards\Model\ResourceModel\Rule\AssociatedEntityMap</argument>
+        </arguments>
+    </type>
+    <type name="Amasty\Rewards\Model\ResourceModel\Rule\Collection">
+        <arguments>
+            <argument name="associatedEntityMap" xsi:type="object">Amasty\Rewards\Model\ResourceModel\Rule\AssociatedEntityMap</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Amasty\Rewards\Api\Data\RuleInterface" xsi:type="string">Amasty\Rewards\Api\RuleRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Amasty\Rewards\Api\Data\RuleInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">amasty_rewards_rule</item>
+                    <item name="identifierField" xsi:type="string">rule_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Amasty\Rewards\Api\Data\RuleInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\Operation\AttributePool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="rewards" xsi:type="array">
+                    <item name="Amasty\Rewards\Api\Data\RuleInterface" xsi:type="array">
+                        <item name="read" xsi:type="string">Amasty\Rewards\Model\ResourceModel\Rule\ReadHandler</item>
+                        <item name="create" xsi:type="string">Amasty\Rewards\Model\ResourceModel\Rule\SaveHandler</item>
+                        <item name="update" xsi:type="string">Amasty\Rewards\Model\ResourceModel\Rule\SaveHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="amasty_rewards_rule_form_data_source" xsi:type="string">Amasty\Rewards\Model\ResourceModel\Rule\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Amasty\Rewards\Api\RewardsProviderInterface">
+        <arguments>
+            <argument name="rewardsProvider" xsi:type="object">Amasty\Rewards\Api\RewardsProviderInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Amasty\Rewards\Model\ResourceModel\Rule\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">amasty_rewards_rule</argument>
+            <argument name="resourceModel" xsi:type="string">Amasty\Rewards\Model\ResourceModel\Rule</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Quote\Model\Cart\CartTotalRepository">
+        <plugin name="Amasty_Rewards::CartTotalRepository" type="Amasty\Rewards\Plugin\Cart\CartTotalRepositoryPlugin"/>
+    </type>
+    <type name="Magento\Sales\Api\CreditmemoRepositoryInterface">
+        <plugin sortOrder="5" name="Amasty_Rewards::SaveRefundPoints" type="Amasty\Rewards\Plugin\Sales\Api\CreditmemoRepositoryInterfacePlugin"/>
+    </type>
+
+    <type name="Amasty\Rewards\Block\Frontend\Balance">
+        <arguments>
+            <argument name="rewardsRepository" xsi:type="object">Amasty\Rewards\Api\RewardsRepositoryInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Block\Frontend\Cart\Highlight">
+        <arguments>
+            <argument name="highlightManagement" xsi:type="object">Amasty\Rewards\Api\CheckoutHighlightManagementInterface\Proxy</argument>
+            <argument name="guestHighlightManagement" xsi:type="object">Amasty\Rewards\Api\GuestHighlightManagementInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Cron\CustomerVisitor">
+        <arguments>
+            <argument name="rewardsProvider" xsi:type="object">Amasty\Rewards\Api\RewardsProviderInterface\Proxy</argument>
+            <argument name="historyRepository" xsi:type="object">Amasty\Rewards\Api\HistoryRepositoryInterface</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Cron\HappyBirthday">
+        <arguments>
+            <argument name="rewardsProvider" xsi:type="object">Amasty\Rewards\Api\RewardsProviderInterface\Proxy</argument>
+            <argument name="historyRepository" xsi:type="object">Amasty\Rewards\Api\HistoryRepositoryInterface\Proxy</argument>
+            <argument name="ruleRepository" xsi:type="object">Amasty\Rewards\Api\RuleRepositoryInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\CustomerData\Balance">
+        <arguments>
+            <argument name="rewardsRepository" xsi:type="object">Amasty\Rewards\Api\RewardsRepositoryInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Model\Catalog\Highlight\Management">
+        <arguments>
+            <argument name="ruleRepository" xsi:type="object">Amasty\Rewards\Api\RuleRepositoryInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Model\Checkout\HighlightManagement">
+        <arguments>
+            <argument name="ruleRepository" xsi:type="object">Amasty\Rewards\Api\RuleRepositoryInterface\Proxy</argument>
+            <argument name="cartManagement" xsi:type="object">Magento\Quote\Api\CartManagementInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Model\GuestHighlightManagement">
+        <arguments>
+            <argument name="ruleRepository" xsi:type="object">Amasty\Rewards\Api\RuleRepositoryInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Model\ResourceModel\Rule">
+        <arguments>
+            <argument name="entityManager" xsi:type="object">Magento\Framework\EntityManager\EntityManager\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Model\ReviewManagement">
+        <arguments>
+            <argument name="customerRepository" xsi:type="object">Magento\Customer\Api\CustomerRepositoryInterface\Proxy</argument>
+            <argument name="rewardsProvider" xsi:type="object">Amasty\Rewards\Api\RewardsProviderInterface\Proxy</argument>
+            <argument name="ruleRepository" xsi:type="object">Amasty\Rewards\Api\RuleRepositoryInterface\Proxy</argument>
+            <argument name="historyRepository" xsi:type="object">Amasty\Rewards\Api\HistoryRepositoryInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Model\RewardsProvider">
+        <arguments>
+            <argument name="date" xsi:type="object">Amasty\Rewards\Model\Date\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Observer\CustomerRegisterSuccess">
+        <arguments>
+            <argument name="rewardsProvider" xsi:type="object">Amasty\Rewards\Api\RewardsProviderInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Block\Frontend\LayoutProcessor">
+        <arguments>
+            <argument name="highlightManagement" xsi:type="object">Amasty\Rewards\Api\CheckoutHighlightManagementInterface\Proxy</argument>
+            <argument name="guestHighlightManagement" xsi:type="object">Amasty\Rewards\Api\GuestHighlightManagementInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Plugin\Newsletter\Model\Subscriber">
+        <arguments>
+            <argument name="historyRepository" xsi:type="object">Amasty\Rewards\Api\HistoryRepositoryInterface\Proxy</argument>
+            <argument name="rewardsProvider" xsi:type="object">Amasty\Rewards\Api\RewardsProviderInterface\Proxy</argument>
+            <argument name="ruleRepository" xsi:type="object">Amasty\Rewards\Api\RuleRepositoryInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Plugin\Sales\Model\ResourceModel\Order">
+        <arguments>
+            <argument name="ruleRepository" xsi:type="object">Amasty\Rewards\Api\RuleRepositoryInterface\Proxy</argument>
+            <argument name="rewardsProvider" xsi:type="object">Amasty\Rewards\Api\RewardsProviderInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Customer\Ui\Component\DataProvider">
+        <plugin name="Amasty_Rewards:JoinRewardsToCustomerGridPlugin" type="Amasty\Rewards\Plugin\Customer\Ui\Component\DataProvider\JoinRewardsToCustomerGridPlugin"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter">
+        <plugin name="Amasty_Rewards:CustomerFilters" type="Amasty\Rewards\Plugin\Customer\Model\ResourceModel\CustomerGrid\RegularFilterPlugin"/>
+    </type>
+
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="Amasty_Rewards::returnRewardPoints" type="Amasty\Rewards\Plugin\Sales\Model\Order\ReturnRewardPoints"/>
+    </type>
+
+    <type name="Amasty\Rewards\Model\CheckoutRewardsManagement">
+        <arguments>
+            <argument name="validator" xsi:type="object">Amasty\Rewards\Model\Quote\Validator\ValidatorPool</argument>
+        </arguments>
+    </type>
+    <type name="Amasty\Rewards\Observer\OrderCreateData">
+        <arguments>
+            <argument name="validator" xsi:type="object">Amasty\Rewards\Model\Quote\Validator\ValidatorPool</argument>
+        </arguments>
+    </type>
+    <virtualType name="Amasty\Rewards\Model\Quote\Validator\ValidatorPool"
+                 type="Amasty\Rewards\Model\Quote\Validator\CompositeValidator">
+        <arguments>
+            <argument name="validatorPool" xsi:type="array">
+                <item name="limit_validator" xsi:type="object">Amasty\Rewards\Model\Quote\Validator\LimitValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Amasty\Rewards\Model\Calculation\Earning">
+        <arguments>
+            <argument name="distributor" xsi:type="object">Amasty\Rewards\Model\Calculation\Earning\Distributor</argument>
+        </arguments>
+    </type>
+    <virtualType name="Amasty\Rewards\Model\Calculation\Earning\Distributor" type="Amasty\Rewards\Model\Calculation\Distributor">
+        <arguments>
+            <argument name="itemAmountCalculator" xsi:type="object">Amasty\Rewards\Model\Calculation\Earning\ItemAmountCalculator</argument>
+        </arguments>
+    </virtualType>
+    <type name="Amasty\Rewards\Model\Order\Earning\ItemsProcessor">
+        <arguments>
+            <argument name="distributor" xsi:type="object">Amasty\Rewards\Model\Calculation\Earning\Distributor</argument>
+            <argument name="itemAmountCalculator" xsi:type="object">Amasty\Rewards\Model\Calculation\Earning\ItemAmountCalculator</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\Rewards\Model\Order\Creditmemo\RefundProcessor">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="refund" xsi:type="object">Amasty\Rewards\Model\Order\Creditmemo\Action\Refund</item>
+                <item name="deduct" xsi:type="object">Amasty\Rewards\Model\Order\Creditmemo\Action\Deduct</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="am_earn_reward_points" xsi:type="string">sales_order.am_earn_reward_points</item>
+                <item name="am_refund_reward_points" xsi:type="string">sales_order.am_refund_reward_points</item>
+                <item name="am_deduct_reward_points" xsi:type="string">sales_order.am_deduct_reward_points</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Change Distributor for replace calculator when items discount have 100% -->
+    <virtualType name="Amasty\Rewards\Model\Calculation\OrderComplete\Distributor" type="Amasty\Rewards\Model\Calculation\Distributor">
+        <arguments>
+            <argument name="itemAmountCalculator" xsi:type="object">Amasty\Rewards\Model\Calculation\Earning\OrderComplete\ItemAmountCalculator</argument>
+        </arguments>
+    </virtualType>
+    <type name="Amasty\Rewards\Model\Order\Earning\ItemsProcessor">
+        <arguments>
+            <argument name="distributor" xsi:type="object">Amasty\Rewards\Model\Calculation\OrderComplete\Distributor</argument>
+            <argument name="itemAmountCalculator" xsi:type="object">Amasty\Rewards\Model\Calculation\Earning\OrderComplete\ItemAmountCalculator</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Api\CustomerRepositoryInterface">
+        <plugin name="Amasty_Rewards::RegisterNewCustomer"
+                type="Amasty\Rewards\Plugin\Customer\Api\CustomerRepositoryInterface\RegisterNewCustomer"/>
+    </type>
+
+    <!--Add possibility for apply patches before DS start-->
+    <type name="Amasty\Base\Plugin\Setup\Model\DeclarationInstaller\ApplyPatchesBeforeDeclarativeSchema">
+        <arguments>
+            <argument name="moduleNames" xsi:type="array">
+                <item name="amasty_rewards" xsi:type="string">Amasty_Rewards</item>
+            </argument>
+        </arguments>
+    </type>
+    <!--Add possibility for apply patches before DS end-->
+
+</config>

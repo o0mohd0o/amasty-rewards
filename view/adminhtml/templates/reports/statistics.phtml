@@ -1,0 +1,141 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Reward Points Base for Magento 2
+ */
+/** @var \Magento\Framework\View\Element\Template $block */
+$ajaxUrl = $block->getUrl('amasty_rewards/reports/ajax');
+?>
+<div class="amrewards-report-container">
+    <div class="amrewards-report-statistics">
+        <span class="amrewards-title"><?= $block->escapeHtml(__('Statistics')) ?></span>
+        <table class="amrewards-reports-table">
+            <tr class="amrewards-row">
+                <td class="amrewards-name col-name"><?= $block->escapeHtml(__('Total Rewarded Points')) ?></td>
+                <td class="amrewards-value"><strong data-amrewards-js="rewarded-points">0</strong></td>
+            </tr>
+            <tr class="amrewards-row">
+                <td class="amrewards-name col-name"><?= $block->escapeHtml(__('Total Redeemed Points')) ?></td>
+                <td class="amrewards-value"><strong data-amrewards-js="redeemed-points">0</strong></td>
+            </tr>
+            <tr class="amrewards-row">
+                <td class="amrewards-name col-name"><?= $block->escapeHtml(__('Average Rewarded Points per Customer')) ?></td>
+                <td class="amrewards-value"><strong data-amrewards-js="average-rewarded">0</strong></td>
+            </tr>
+            <tr class="amrewards-row">
+                <td class="amrewards-name col-name"><?= $block->escapeHtml(__('Average Redeemed Points per Order')) ?></td>
+                <td class="amrewards-value"><strong data-amrewards-js="average-redeemed">0</strong></td>
+            </tr>
+            <tr class="amrewards-row">
+                <td class="amrewards-name col-name"><?= $block->escapeHtml(__('Total Expired Points')) ?></td>
+                <td class="amrewards-value"><strong data-amrewards-js="total-expired">0</strong></td>
+            </tr>
+        </table>
+    </div>
+    <div class="amrewards-report-chart" id="amreward-chart"></div>
+</div>
+<div class="amrewards-report-error message"></div>
+<script type="text/javascript">
+    var amRewardsReportChart = AmCharts.makeChart("amreward-chart",
+        {
+            "type": "serial",
+            "categoryField": "period",
+            "synchronizeGrid": true,
+            "startDuration": 1,
+            "fontFamily": "'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+            "fontSize": 12,
+            "minMarginLeft": 70,
+            "theme": "light",
+            "categoryAxis": {
+                "autoRotateAngle": 90,
+                "autoRotateCount": 14,
+                "gridPosition": "start",
+                "boldLabels": true,
+                "centerRotatedLabels": true,
+                "titleBold": false,
+                "titleRotation": 0
+            },
+            "trendLines": [],
+            "graphs": [
+                {
+                    "balloonText": "[[category]] <br><b><?= __("%1 points", '[[rewarded]]') ?></b>",
+                    "bullet": "round",
+                    "bulletAlpha": 0.28,
+                    "bulletColor": "#FF8000",
+                    "cornerRadiusTop": 2,
+                    "fillAlphas": 1,
+                    "fillColors": "#ffa63d",
+                    "id": "rewarded",
+                    "lineThickness": 0,
+                    "markerType": "square",
+                    "title": "<?= __("Rewarded Points") ?>",
+                    "type": "column",
+                    "valueField": "rewarded"
+                },
+                {
+                    "balloonText": "[[category]] <br><b><?= __("%1 points", '[[redeemed]]') ?></b>",
+                    "bullet": "round",
+                    "bulletAlpha": 0.26,
+                    "bulletColor": "#0000FF",
+                    "cornerRadiusTop": 2,
+                    "fillAlphas": 1,
+                    "fillColors": "#1787e0",
+                    "id": "redeemed",
+                    "lineThickness": 0,
+                    "markerType": "square",
+                    "title": "<?= __("Redeemed Points") ?>",
+                    "type": "column",
+                    "valueField": "redeemed"
+                }
+            ],
+            "guides": [],
+            "valueAxes": [
+                {
+                    "id": "axis",
+                    "title": "",
+                    "titleBold": false
+                }
+            ],
+            "allLabels": [],
+            "balloon": {
+                "borderAlpha": 0.15,
+                "borderColor": "#DAD8D8",
+                "borderThickness": 1,
+                "cornerRadius": 1,
+                "fillColor": "#DFE7E7",
+                "textAlign": "left"
+            },
+            "legend": {
+                "enabled": true,
+                "align": "center",
+                "fontSize": 14,
+                "markerBorderThickness": 5,
+                "markerLabelGap": 9,
+                "position": "top",
+                "useGraphSettings": true,
+                "useMarkerColorForLabels": true,
+                "useMarkerColorForValues": true,
+                "valueWidth": 59
+            },
+            "titles": []
+        }
+    );
+
+    amRewardsReportChart.dataProvider = [
+        {
+            "period": "12/22/18",
+            "rewarded": 8,
+            "redeemed": 16
+        }
+    ];
+</script>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Amasty_Rewards/js/reports": {
+             "ajaxUrl": "<?= $block->escapeUrl($ajaxUrl) ?>"
+            }
+        }
+    }
+</script>
